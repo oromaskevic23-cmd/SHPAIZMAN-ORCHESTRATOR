@@ -949,3 +949,448 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+"""SHPAIZMAN Telegram control bridge (Python 3.11+, standard library only).
+
+Requires shpaizman_orchestrator.py in the SAME folder.
+Only manages local offline drafts; external AI APIs are disabled.
+
+Windows PowerShell setup:
+  $env:SHPAIZMAN_TELEGRAM_OWNER_ID='123456789'
+  $env:SHPAIZMAN_TELEGRAM_BOT_TOKEN='<your private BotFather token>'
+  py -3 shpaizman_telegram.py serve
+
+Offline tests:
+  py -3 shpaizman_telegram.py self-test
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+import time
+import unittest
+import tempfile
+from urllib import request
+
+from shpaizman_orchestrator import (
+    PLATFORMS, Shpaizman, default_db_path, open_db
+)
+
+HELP = (
+    "SHPAIZMAN — локальное управление:\n"
+    "/status — состояние\n"
+    "/platforms — 10 платформ\n"
+    "/jobs — последние задания\n"
+    "/enqueue <platform> <task> — добавить офлайн-задание\n"
+    "/runonce — подготовить один офлайн-план\n"
+    "/cancel <job_id> — отменить ожидающее задание\n"
+    "/stop — отключить Telegram-мост\n"
+    "Публикация, платежи и внешние API отключены."
+)
+
+
+def owner_from_env() -> int:
+    raw = os.environ.get("SHPAIZMAN_TELEGRAM_OWNER_ID", "")
+    if not raw.isdecimal() or int(raw) <= 0:
+        raise ValueError("Set SHPAIZMAN_TELEGRAM_OWNER_ID")
+    return int(raw)
+
+
+def token_from_env() -> str:
+    token = os.environ.get("SHPAIZMAN_TELEGRAM_BOT_TOKEN", "")
+    if not re.fullmatch(r"[0-9]+:[A-Za-z0-9_-]{20,}", token):
+        raise ValueError("Invalid or missing Telegram bot token")
+    return token
+
+
+class TelegramAPI:
+    """Official Telegram Bot API; never log token-bearing URLs."""
+
+    def __init__(self, token: str):
+        self._url = "https://api.telegram.org/bot" + token + "/"
+
+    def call(self, method: str, payload: dict, timeout: int = 40):
+        if method not in {"getUpdates", "sendMessage"}:
+            raise ValueError("Telegram method not permitted")
+
+        body = json.dumps(payload).encode("utf-8")
+        req = request.Request(
+            self._url + method,
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "User-Agent": "SHPAIZMAN-Local/0.5",
+            },
+        )
+
+        with request.urlopen(req, timeout=timeout) as response:
+            answer = json.loads(response.read(100_000))
+
+        if not isinstance(answer, dict) or answer.get("ok") is not True:
+            raise RuntimeError("Telegram returned a non-successful result")
+
+        return answer.get("result")
+
+    def updates(self, offset: int | None):
+        payload = {
+            "timeout": 25,
+            "limit": 50,
+            "allowed_updates": ["message"],
+        }
+        if offset is not None:
+            payload["offset"] = offset
+        return self.call("getUpdates", payload, timeout=40)
+
+    def reply(self, owner_id: int, text: str):
+        return self.call(
+            "sendMessage",
+            {"chat_id": owner_id, "text": text[:3500]},
+            timeout=15,
+        )
+
+
+class TelegramController:
+    """Single-owner controller with durable at-most-once processing."""
+
+    def __init__(self, app: Shpaizman, owner_id: int):
+        if not isinstance(owner_id, int) or owner_id <= 0:
+            raise ValueError("owner_id must be positive")
+
+        self.app = app
+        self.owner_id = owner_id
+        self.stop_requested = False
+        self.last_offset = None
+
+        with open_db(self.app.db_path) as db:
+            db.execute(
+                """CREATE TABLE IF NOT EXISTS telegram_processed (
+                    update_id INTEGER PRIMARY KEY,
+                    processed_at TEXT DEFAULT CURRENT_TIMESTAMP
+                )"""
+            )
+
+    def _first_time(self, update_id: int) -> bool:
+        if not isinstance(update_id, int) or update_id < 0:
+            return False
+
+        with open_db(self.app.db_path) as db:
+            row = db.execute(
+                "INSERT OR IGNORE INTO telegram_processed(update_id) VALUES (?)",
+                (update_id,),
+            )
+            return row.rowcount == 1
+
+    def handle(self, update: dict) -> str | None:
+        if not isinstance(update, dict):
+            return None
+
+        msg = update.get("message")
+        if not isinstance(msg, dict):
+            return None
+
+        user = msg.get("from") or {}
+        chat = msg.get("chat") or {}
+
+        if (
+            user.get("id") != self.owner_id
+            or chat.get("id") != self.owner_id
+            or chat.get("type") != "private"
+        ):
+            return None
+
+        content = msg.get("text")
+        if not isinstance(content, str) or not content.startswith("/"):
+            return None
+
+        # Mark before mutation to prevent execution of replayed commands.
+        if not self._first_time(update.get("update_id")):
+            return None
+
+        parts = content.strip().split(maxsplit=2)
+        cmd = parts[0].split("@", 1)[0].lower()
+
+        if cmd in {"/start", "/help"}:
+            return HELP
+
+        if cmd == "/status":
+            state = self.app.overview()
+            return (
+                "SHPAIZMAN LOCAL | "
+                + " | ".join(f"{k}: {v}" for k, v in state.items())
+            )
+
+        if cmd == "/platforms":
+            return "Платформы (OFFLINE ONLY):\n" + "\n".join(
+                f"{slug} — {name}"
+                for slug, name in PLATFORMS.items()
+            )
+
+        if cmd == "/jobs":
+            items = self.app.jobs()[:8]
+            return "\n".join(
+                f"{j['id']} {j['platform']} {j['status']}"
+                for j in items
+            ) or "Очередь пуста"
+
+        if cmd == "/enqueue":
+            if (
+                len(parts) != 3
+                or parts[1] not in PLATFORMS
+                or len(parts[2]) > 1200
+            ):
+                return "Формат: /enqueue albato Описание задачи"
+
+            try:
+                job_id = self.app.enqueue(parts[1], parts[2])
+            except ValueError:
+                return "Задание отклонено: проверьте текст или лимит очереди"
+
+            return (
+                f"Задание {job_id} добавлено. "
+                "Внешние действия выключены."
+            )
+
+        if cmd == "/runonce":
+            output = self.app.process_one()
+            if output is None:
+                return "Нет ожидающих заданий"
+            return (
+                f"{output['job_id']}: {output['status']} "
+                "(только офлайн-план)"
+            )
+
+        if cmd == "/cancel":
+            if (
+                len(parts) != 2
+                or re.fullmatch(r"[0-9a-f]{32}", parts[1]) is None
+            ):
+                return "Формат: /cancel <32-символьный ID>"
+
+            return (
+                "Задание отменено"
+                if self.app.cancel(parts[1])
+                else "Ожидающее задание не найдено"
+            )
+
+        if cmd == "/stop":
+            self.stop_requested = True
+            return (
+                "Telegram-мост останавливается. "
+                "Windows CRM продолжает работать."
+            )
+
+        return "Неизвестная команда. /help"
+
+
+def serve(app: Shpaizman, api: TelegramAPI, owner_id: int) -> None:
+    controller = TelegramController(app, owner_id)
+    print("SHPAIZMAN Telegram bridge active (owner only).")
+
+    while not controller.stop_requested:
+        try:
+            updates = api.updates(controller.last_offset)
+            if not isinstance(updates, list):
+                raise ValueError("Unexpected Telegram payload")
+
+            for update in updates:
+                update_id = (
+                    update.get("update_id")
+                    if isinstance(update, dict)
+                    else None
+                )
+                if not isinstance(update_id, int):
+                    continue
+
+                controller.last_offset = max(
+                    controller.last_offset or 0, update_id + 1
+                )
+
+                answer = controller.handle(update)
+                if answer:
+                    api.reply(owner_id, answer)
+
+                if controller.stop_requested:
+                    break
+
+        except KeyboardInterrupt:
+            break
+        except Exception:
+            # HTTP exception strings may contain the bot token.
+            print("Telegram unavailable; retrying in 5 seconds.")
+            time.sleep(5)
+
+
+class TelegramTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.app = Shpaizman(Path(self.tmp.name) / "data.sqlite")
+        self.controller = TelegramController(self.app, 1234)
+        self.seq = 0
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def message(
+        self, text, uid=1234, chat=1234,
+        chat_type="private", update_id=None
+    ):
+        self.seq += 1
+        return {
+            "update_id": update_id if update_id is not None else self.seq,
+            "message": {
+                "from": {"id": uid},
+                "chat": {"id": chat, "type": chat_type},
+                "text": text,
+            },
+        }
+
+    def test_owner_help(self):
+        self.assertIn(
+            "/enqueue", self.controller.handle(self.message("/help"))
+        )
+
+    def test_other_user_denied(self):
+        self.assertIsNone(
+            self.controller.handle(self.message("/status", uid=666))
+        )
+
+    def test_other_chat_denied(self):
+        self.assertIsNone(
+            self.controller.handle(self.message("/status", chat=789))
+        )
+
+    def test_group_denied(self):
+        self.assertIsNone(
+            self.controller.handle(
+                self.message("/status", chat_type="group")
+            )
+        )
+
+    def test_enqueue(self):
+        self.assertIn(
+            "добавлено",
+            self.controller.handle(
+                self.message("/enqueue albato Создай план")
+            ),
+        )
+        self.assertEqual(self.app.overview()["jobs"], 1)
+
+    def test_wrong_platform_denied(self):
+        self.controller.handle(
+            self.message("/enqueue invalid Создай план")
+        )
+        self.assertEqual(self.app.overview()["jobs"], 0)
+
+    def test_duplicate_update_no_second_job(self):
+        msg = self.message("/enqueue nodul План")
+        self.controller.handle(msg)
+        self.controller.handle(msg)
+        self.assertEqual(self.app.overview()["jobs"], 1)
+
+    def test_duplicate_after_restart(self):
+        msg = self.message("/enqueue nodul План")
+        self.controller.handle(msg)
+        again = TelegramController(
+            Shpaizman(self.app.db_path), 1234
+        )
+        self.assertIsNone(again.handle(msg))
+
+    def test_offline_run(self):
+        self.controller.handle(
+            self.message("/enqueue gigachat Тест")
+        )
+        self.assertIn(
+            "draft_ready",
+            self.controller.handle(self.message("/runonce")),
+        )
+
+    def test_cancel(self):
+        job = self.app.enqueue("yandex", "Тест")
+        self.assertIn(
+            "отменено",
+            self.controller.handle(self.message("/cancel " + job)),
+        )
+
+    def test_stop_only_bridge(self):
+        self.controller.handle(self.message("/stop"))
+        self.assertTrue(self.controller.stop_requested)
+        self.assertEqual(self.app.overview()["live_integrations"], 0)
+
+    def test_no_arbitrary_commands(self):
+        self.assertIn(
+            "Неизвестная",
+            self.controller.handle(self.message("/shell danger")),
+        )
+
+    def test_status_is_local(self):
+        self.assertIn(
+            "LOCAL_OFFLINE",
+            self.controller.handle(self.message("/status")),
+        )
+
+    def test_nonmessage_ignored(self):
+        self.assertIsNone(
+            self.controller.handle(
+                {"update_id": 44, "callback_query": {}}
+            )
+        )
+
+    def test_bad_update_id_rejected(self):
+        self.assertIsNone(
+            self.controller.handle(
+                self.message("/stop", update_id=-1)
+            )
+        )
+        self.assertFalse(self.controller.stop_requested)
+
+    def test_missing_owner_env_denied(self):
+        from unittest.mock import patch
+        with patch.dict(
+            os.environ, {"SHPAIZMAN_TELEGRAM_OWNER_ID": ""}
+        ):
+            with self.assertRaises(ValueError):
+                owner_from_env()
+
+    def test_missing_token_denied(self):
+        from unittest.mock import patch
+        with patch.dict(
+            os.environ, {"SHPAIZMAN_TELEGRAM_BOT_TOKEN": ""}
+        ):
+            with self.assertRaises(ValueError):
+                token_from_env()
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="SHPAIZMAN secure Telegram bridge"
+    )
+    parser.add_argument(
+        "command", choices=["serve", "self-test"]
+    )
+    parser.add_argument(
+        "--db", type=Path, default=default_db_path()
+    )
+    args = parser.parse_args()
+
+    if args.command == "self-test":
+        result = unittest.TextTestRunner(verbosity=2).run(
+            unittest.defaultTestLoader.loadTestsFromTestCase(
+                TelegramTests
+            )
+        )
+        raise SystemExit(
+            0 if result.wasSuccessful() else 1
+        )
+
+    app = Shpaizman(args.db)
+    serve(
+        app,
+        TelegramAPI(token_from_env()),
+        owner_from_env(),
+    )
+
+
+if __name__ == "__main__":
+    main()
