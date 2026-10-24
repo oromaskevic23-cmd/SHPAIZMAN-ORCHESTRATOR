@@ -1,3 +1,7 @@
+> **Release and ownership clarity — 24 October 2026.** This brother-edition project is an **independent** proposed AI orchestrator; its intended beneficiary and external accounts must remain separated from IMPERIAL Core treasury/wallets. The current repository contains README and policy documents but **no independent installable release archive, executable source tree or CI-verified Windows installation**. Do not treat its design as a ready-to-install autonomous income system. [Evidence-based audit](https://github.com/oromaskevic23-cmd/IMPERIAL-Core-US-HoldCo-Founder-Control-Blueprint/blob/main/docs/ENTERPRISE_PORTFOLIO_AUDIT.md).
+
+---
+
 # SHPAIZMAN-ORCHESTRATOR
 Independent AI orchestrator with 10 specialized platform agents, CRM, Telegram control and Windows support. Brother Edition.
 — SHPAIZMAN ORCHESTRATOR v0.2.1
