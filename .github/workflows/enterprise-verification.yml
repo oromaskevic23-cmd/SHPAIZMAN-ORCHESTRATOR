@@ -38,3 +38,20 @@ jobs:
           assert "AUTO_TRANSFER" in obj["deny"]
           print("PASS: ten allowlisted agents; brother-owned payouts; fail-closed consent")
           PY
+      - name: Exercise offline Service Factory and pipeline integrity smoke
+        run: |
+          python -m shpaizman.business_cli catalog > /tmp/service-offers.json
+          python -m shpaizman.business_cli --data-dir /tmp/shpaizman-ci-business dashboard > /tmp/service-dashboard.json
+          python -m shpaizman.business_cli --data-dir /tmp/shpaizman-ci-business verify
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          offers=json.loads(Path("/tmp/service-offers.json").read_text())
+          dashboard=json.loads(Path("/tmp/service-dashboard.json").read_text())
+          assert len(offers["offers"])==5
+          assert len({agent for v in offers["offers"].values() for agent in v["agents"]})==10
+          assert dashboard["verified_received_revenue_minor"]==0
+          assert dashboard["automated_wallet_transfers"]=="DISABLED"
+          assert dashboard["platform_accounts_connected"]==0
+          print("PASS: real offline business executable, ten agents, zero fake revenue")
+          PY
