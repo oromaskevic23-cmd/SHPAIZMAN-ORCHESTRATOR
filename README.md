@@ -62,7 +62,7 @@ py -3.12 -m enterprise.verify_release --zip-path "$SourceZip" --expected-sha256 
 
 ## Инженерные материалы
 
-[Техническая презентация](docs/PRESENTATION_RU.md) · [Система IT-заказов](docs/SERVICE_FACTORY.md) · [Передача в ASTRA](docs/ASTRA_HANDOVER.md) · [Безопасность](SECURITY.md) · [Акт приемки](docs/PROGRAMMER_ACCEPTANCE_RU.md) · [Реестр ZIP](docs/RELEASE_0_8_0_RC1.md)
+[Техническая презентация](docs/PRESENTATION_RU.md) · [Карта кода](docs/DEVELOPER_SOURCE_MAP_RU.md) · [Задание для ASTRA](docs/ASTRA_PROGRAMMER_BRIEF_RU.md) · [Проверка Windows](docs/PREFLIGHT_WINDOWS_RU.md) · [Система IT-заказов](docs/SERVICE_FACTORY.md) · [Передача в ASTRA](docs/ASTRA_HANDOVER.md) · [Безопасность](SECURITY.md) · [Акт приемки](docs/PROGRAMMER_ACCEPTANCE_RU.md) · [Реестр ZIP](docs/RELEASE_0_8_0_RC1.md)
 
 ## Текущая приёмка
 
