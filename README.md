@@ -1,61 +1,76 @@
 # SHPAIZMAN ORCHESTRATOR — Enterprise Brother Edition
 
-**One orchestrator. Ten professional agents. One independent beneficiary. Evidence before actions.**
+**Один оркестратор · Десять профессиональных агентов · Собственный IT-бизнес Александра Викторовича**
 
-**Beneficiary:** Александр Викторович (Alexander Viktorovich). **Founder / initial architecture:** Alexander Romaskevich (RomaskevicH). This is a separately governed brother-edition project; no shared wallets, payouts, credentials or financial authority with IMPERIAL Core.
+[![Enterprise Verification](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml/badge.svg)](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml)
 
-## What actually exists
+> **Программисту брата: [ОТКРЫТЬ ПРЕЗЕНТАЦИЮ ПРОЕКТА](docs/PRESENTATION_RU.md) → [ПОШАГОВАЯ УСТАНОВКА НА WINDOWS](docs/WINDOWS_DEVELOPER_SETUP_RU.md) → [КОНТРОЛЬНАЯ СУММА ZIP](docs/RELEASE_0_8_0_RC1.md) → [АКТ ПРИЁМКИ](docs/PROGRAMMER_ACCEPTANCE_RU.md).**
 
-- A **Python source installation kit 0.7.0 RC2** has been prepared separately from this repository; it contains a local orchestration runtime, 10 specialized agents, Windows installer scripts, local self-tests and a SQLite CRM.
-- **This repository is the public verified handover and security contract.** It currently does **not** distribute the full Windows ZIP or a signed Windows EXE. The source ZIP must be supplied independently by its owner, and its SHA-256 independently compared.
-- There are **10 defined platform adapters**, not 10 confirmed freelance marketplaces or paying employers. Authenticated accounts: **0/10 verified**. Automated revenue: **NOT VERIFIED**.
-- The brother's own locally authorized ASTRA can follow the [handover protocol](docs/ASTRA_HANDOVER.md) and run the bounded preflight verifier **on his own Windows PC after permission**; merely connecting to GitHub does not grant remote desktop control.
+**Версия отдельного Windows-пакета:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source, **не EXE**).  
+**SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.  
+**GitHub:** здесь хранится публичный технический handover, исполняемое бизнес-ядро, ZIP-верификатор и CI. **Полный исходный Windows ZIP пока передаётся отдельно; в GitHub он не загружен.**
 
-## Enterprise architecture
+**Бенефициар и получатель законно полученных доходов:** Александр Викторович. **Автор исходного замысла:** Alexander Romaskevich — RomaskevicH. Кошельки, контракты, счета и клиентские данные брата отделены от IMPERIAL Core.
+
+## Что получает брат
+
+| Компонент | Реальное состояние | Код / инструкция |
+|---|---|---|
+| Центральный оркестратор, локальная SQLite CRM, GUI | Есть в исходном ZIP; Windows ПК брата не проверен | [Как получить ZIP](docs/RELEASE_0_8_0_RC1.md) · [Windows Setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) |
+| 10 независимых профессиональных агентов | Локальный код имеется в ZIP; внешние аккаунты **0/10** | [Матрица агентов](docs/AGENT_MATRIX.md) |
+| Service Factory — управление клиентскими IT-заказами | Рабочий офлайн-код в этом GitHub; доход не подтверждён | [Бизнес-ядро](shpaizman/business.py) · [CLI](shpaizman/business_cli.py) · [тесты](tests/test_business.py) |
+| Проверка поставки перед установкой | Публичный read-only верификатор и тесты | [ZIP verifier](enterprise/verify_release.py) · [Enterprise CI](.github/workflows/enterprise-verification.yml) |
+| Локальная ASTRA брата | Протокол передачи и границы полномочий; не подключена к его ПК | [ASTRA handover](docs/ASTRA_HANDOVER.md) · [контракт JSON](enterprise/handover-contract.json) |
+| MetaMask / расчёты | Только публичный адрес при поддержке сети и согласии брата; никаких переводов | [Финансовая политика](docs/FINANCE_AND_PAYOUTS.md) |
+
+## Как работает система
 
 ```mermaid
 flowchart TD
-  O["Brother's authorized ASTRA (local PC)"] --> G["Owner Approval Gateway"]
-  G --> C["SHPAIZMAN Orchestrator"]
-  C --> A["10 separate professional agents"]
-  A --> P["10 provider-specific adapters"]
-  P --> E["Authorized provider APIs — 0/10 verified"]
-  E --> R["Contracts and actual customer work — not proven"]
-  R --> L["Evidence-only revenue ledger"]
-  L --> B["Alexander Viktorovich: beneficiary"]
-  B -. "wallet preference only if provider supports payout rail" .-> W["Public MetaMask address — no seed/private key"]
+  Owner["Александр Викторович · владелец"] --> Astra["Локальная ASTRA / программист"]
+  Astra --> Approval{"Подтверждение полномочий"}
+  Approval -->|Нет| Stop["BLOCKED"]
+  Approval -->|Да| Orch["SHPAIZMAN Orchestrator"]
+  Orch --> Queue["Очередь · SQLite · Audit"]
+  Queue --> Agents["10 специализированных агентов"]
+  Agents --> Providers["10 технологических платформ · 0/10 LIVE"]
+  Orch --> Factory["Service Factory · 5 IT-услуг"]
+  Factory --> Lifecycle["Клиент → договор → исполнение → QA → приёмка → счёт"]
+  Lifecycle --> Payments["Оплата: требуется независимое подтверждение"]
+  Payments --> Beneficiary["Законный доход принадлежит брату"]
 ```
 
-The ZIP's local operations are testable without provider accounts; **external calls require account-specific approval, permitted APIs, and confirmed FREE_ONLY billing gates**. Providers are not automatically payment sources. See [Ten-Agent Registry](docs/AGENT_MATRIX.md).
+**Площадки — это инструменты выполнения заказов, не десять подтверждённых источников клиентов.** Настоящий IT-бизнес строится на законных заказах, понятных услугах, результатах и подтверждённой оплате.
 
-## Technical handover for the brother's ASTRA
+## Быстрый старт для программиста
 
-1. **Get the approved 0.7.0 RC2 ZIP and its `.sha256` file from the owner through an authorized transfer.** The ZIP is deliberately **not** embedded or uploaded in this GitHub repository.
-2. Run `python -m enterprise.verify_release --zip-path PATH_TO_ZIP --expected-sha256 EXPECTED_64_HEX` (stdlib only, no code execution or extraction) on the **brother's machine**.
-3. Read the output `enterprise/handover-contract.json`, [runbook](docs/ASTRA_HANDOVER.md), and the unpacked kit's `docs/ASTRA_ENTERPRISE_HANDOVER_RU.md`.
-4. Install in a new per-user directory **only after the brother authorizes installation**. Run Windows tests, ten-agent offline smoke and platform-by-platform authorization. See [Acceptance](docs/ACCEPTANCE.md).
+```powershell
+# 1. Получить публичные инструкции и проверяющий код
+git clone https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR.git
+cd SHPAIZMAN-ORCHESTRATOR
 
-```bash
-python -m unittest discover -s tests -v
-python -m enterprise.verify_release --help
+# 2. Получить ОТДЕЛЬНО у владельца полный ZIP версии 0.8.0 RC1
+$SourceZip = Join-Path $env:USERPROFILE "Downloads\SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip"
+
+# 3. Проверить внешний SHA и внутренний список исходников до распаковки
+py -3.12 -m enterprise.verify_release --zip-path "$SourceZip" --expected-sha256 "9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e"
 ```
 
-## Payout governance
+После `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXECUTED` перейти к **[Windows Developer Setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md)**: распаковать, запустить `INSTALL.cmd` только после согласия брата, затем `START_SHPAIZMAN.cmd`, `RUN_TESTS.cmd` и локальный smoke всех десяти агентов.
 
-**All legitimately earned, settled proceeds belong to the brother**, subject to contracts, taxes, provider rules and legal ownership. His public MetaMask address can be saved locally as a payout preference. A MetaMask address is **not a platform payout integration**, and many providers pay only through bank or other rails. This project never asks for recovery phrases, keys or wallet signatures, initiates transfers, guarantees returns or uses IMPERIAL Core funds. Invoice claims are **UNVERIFIED** until reconciled with a genuinely independent settlement source.
+**Не запускайте `python run.py` из клона GitHub:** полного `run.py` в текущем дереве нет — он находится в отдельном ZIP.
 
-## Evidence / release status
+## Инженерные материалы
 
-| Gate | Status |
-|---|---|
-| Repository architecture, source ZIP review | INSPECTED |
-| ZIP local unit suite (source candidate) | 127 tests completed, 0 failures, 1 skipped — Linux only |
-| New repository verifier + CI | See exact PR and GitHub Actions results |
-| Installation / Windows GUI on brother's machine | **NOT VERIFIED** |
-| External platforms / API authentications | **0/10 VERIFIED** |
-| Customer income, bank settlement, wallet receipt | **NOT VERIFIED** |
-| Production autonomous jobs, external financial actions | **DENIED** |
+[Техническая презентация](docs/PRESENTATION_RU.md) · [Карта кода](docs/DEVELOPER_SOURCE_MAP_RU.md) · [Задание для ASTRA](docs/ASTRA_PROGRAMMER_BRIEF_RU.md) · [Проверка Windows](docs/PREFLIGHT_WINDOWS_RU.md) · [Система IT-заказов](docs/SERVICE_FACTORY.md) · [Передача в ASTRA](docs/ASTRA_HANDOVER.md) · [Безопасность](SECURITY.md) · [Акт приемки](docs/PROGRAMMER_ACCEPTANCE_RU.md) · [Реестр ZIP](docs/RELEASE_0_8_0_RC1.md)
 
-**FREE_ONLY · Zero Trust · Deny by Default · Fail Closed · Brother Approval Required**
+## Текущая приёмка
 
-> A passing CI, screenshot or text-only documentation is not a certification of Windows desktop deployment or a guarantee of income.
+- ZIP 0.8.0 RC1: SHA-256 сверяется с `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`, внутренний список 88 исходных файлов, всего 89 ZIP entries.
+- Локальная Linux-проверка кандидата: **148 тестов, 0 ошибок, 1 пропуск** (из подготовленного пакета). Действительный CI текущего GitHub-кода смотрите в [Actions](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions); цифры одного тестового окружения не равны приёмке Windows.
+- **NOT VERIFIED:** установка на ПК брата, Windows GUI, 10 авторизованных внешних аккаунтов, Telegram-соединение, реальные клиенты и оплаченные заказы, подтверждённая выручка, вывод средств.
+- **ZERO TRUST / FREE_ONLY / DENY BY DEFAULT / FAIL CLOSED:** никакой автоматической оплаты подписок, секретов MetaMask, скрытых переводов или прав на чужой компьютер.
+
+**Публичный репозиторий сам по себе не получает доступ к ПК брата.** Он помогает программисту проверить и установить код с его разрешения.
+
+**SHPAIZMAN: Build a real service. Verify every result.**
