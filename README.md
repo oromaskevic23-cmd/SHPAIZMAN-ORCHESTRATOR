@@ -11,6 +11,12 @@
 - There are **10 defined platform adapters**, not 10 confirmed freelance marketplaces or paying employers. Authenticated accounts: **0/10 verified**. Automated revenue: **NOT VERIFIED**.
 - The brother's own locally authorized ASTRA can follow the [handover protocol](docs/ASTRA_HANDOVER.md) and run the bounded preflight verifier **on his own Windows PC after permission**; merely connecting to GitHub does not grant remote desktop control.
 
+## New: Revenue-capable Service Factory (execution core, not verified income)
+
+**Technical milestone:** [Service Factory business mechanism](docs/SERVICE_FACTORY.md) now includes executable first-party Python source, bounded stage transitions for lawful service orders, idempotent SQLite order processing, SHA-256 audit-chain verification and client/owner consent gates. It maps five productized services across all ten agent professions. [Code](shpaizman/business.py) · [CLI](shpaizman/business_cli.py) · [Tests](tests/test_business.py).
+
+An invoice is not a payment. The source deliberately marks claimed settlements **UNVERIFIED** and independently confirmed income at **zero evidenced receipts**. This is not automated customer acquisition or financial transfer functionality; genuine demand and provider account access remain future work.
+
 ## Enterprise architecture
 
 ```mermaid
