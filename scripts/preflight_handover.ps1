@@ -20,7 +20,7 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 try {
   if (-not [Environment]::Is64BitOperatingSystem) { throw 'WINDOWS_X64_REQUIRED' }
-  if (-not $IsWindows -and $PSVersionTable.PSEdition -eq 'Core') {
+  if ($PSVersionTable.PSEdition -eq 'Core' -and -not $IsWindows) {
     throw 'WINDOWS_REQUIRED'
   }
   $archive = (Resolve-Path -LiteralPath $ArchivePath -ErrorAction Stop).ProviderPath
