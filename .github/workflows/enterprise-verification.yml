@@ -55,3 +55,37 @@ jobs:
           assert dashboard["platform_accounts_connected"]==0
           print("PASS: real offline business executable, ten agents, zero fake revenue")
           PY
+
+  windows-programmer-docs:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # pinned v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # pinned v5
+        with:
+          python-version: "3.12"
+          architecture: x64
+      - name: Exercise actual Windows Python source and setup documentation
+        shell: pwsh
+        run: |
+          python -m unittest discover -s tests -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m shpaizman.business_cli catalog
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify PowerShell installer preflight is syntactically valid (do not execute)
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $syntaxErrors = $null
+          $path = Join-Path $PWD.Path 'scripts/preflight_handover.ps1'
+          $ast = [System.Management.Automation.Language.Parser]::ParseFile(
+            $path, [ref]$tokens, [ref]$syntaxErrors)
+          if ($null -eq $ast -or $syntaxErrors.Count -gt 0) {
+            foreach ($issue in $syntaxErrors) { Write-Error $issue.Message }
+            exit 1
+          }
+          Write-Host 'PASS: PowerShell preflight syntax, no ZIP extracted or installer executed'
