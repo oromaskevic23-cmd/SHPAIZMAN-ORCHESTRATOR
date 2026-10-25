@@ -1,5 +1,6 @@
 """Test customer delivery workflow, revenue claims and hostile state changes offline."""
 import hashlib,sqlite3,tempfile,unittest
+from contextlib import closing
 from pathlib import Path
 from shpaizman.business import BusinessDenied,ServiceFactory,SERVICES,STAGES
 def sha(x):return hashlib.sha256(x.encode()).hexdigest()
@@ -81,20 +82,20 @@ class ServiceFactoryTests(unittest.TestCase):
    self.db.advance(a["id"],"PROPOSED",event_key=key(1),evidence_sha256=sha("PROPOSED"))
  def test_immutable_journal_update_delete_rejected(self):
   a=self.lead()
-  with sqlite3.connect(self.db.path) as conn:
+  with closing(sqlite3.connect(self.db.path)) as conn, conn:
    with self.assertRaises(sqlite3.IntegrityError):
     conn.execute("UPDATE business_events SET target_stage='INVOICED' WHERE order_id=?",(a["id"],))
    with self.assertRaises(sqlite3.IntegrityError):
     conn.execute("DELETE FROM business_events WHERE order_id=?",(a["id"],))
  def test_mutated_orders_table_detected_by_reprojection(self):
   a=self.lead()
-  with sqlite3.connect(self.db.path) as conn:
+  with closing(sqlite3.connect(self.db.path)) as conn, conn:
    conn.execute("UPDATE orders SET stage='INVOICED' WHERE id=?",(a["id"],))
   with self.assertRaisesRegex(BusinessDenied,"TAMPERED"):
    self.db.verification()
  def test_event_hash_chain_rewrite_detected(self):
   self.lead()
-  with sqlite3.connect(self.db.path) as conn:
+  with closing(sqlite3.connect(self.db.path)) as conn, conn:
    conn.execute("DROP TRIGGER business_events_no_update")
    conn.execute("UPDATE business_events SET event_hash=?",("0"*64,))
   with self.assertRaisesRegex(BusinessDenied,"BROKEN"):self.db.verification()
