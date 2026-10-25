@@ -1,0 +1,83 @@
+{
+  "schema": "shpaizman_enterprise_handover_v1",
+  "beneficiary": "Alexander Viktorovich",
+  "founder_signature": "RomaskevicH",
+  "version": "0.7.0-rc2",
+  "installation": "BROTHER_LOCAL_AUTHORIZED_ONLY",
+  "platform_agents": [
+    {
+      "id": "AGENT-01",
+      "platform": "albato",
+      "skill": "Integration Engineer"
+    },
+    {
+      "id": "AGENT-02",
+      "platform": "aimylogic",
+      "skill": "Conversational AI Engineer"
+    },
+    {
+      "id": "AGENT-03",
+      "platform": "tomoru",
+      "skill": "Voice Automation Engineer"
+    },
+    {
+      "id": "AGENT-04",
+      "platform": "twin",
+      "skill": "Communications Engineer"
+    },
+    {
+      "id": "AGENT-05",
+      "platform": "gigachat",
+      "skill": "Language AI Engineer"
+    },
+    {
+      "id": "AGENT-06",
+      "platform": "yandex",
+      "skill": "AI Model Engineer"
+    },
+    {
+      "id": "AGENT-07",
+      "platform": "nodul",
+      "skill": "Workflow Engineer"
+    },
+    {
+      "id": "AGENT-08",
+      "platform": "bitrix24",
+      "skill": "CRM Automation Engineer"
+    },
+    {
+      "id": "AGENT-09",
+      "platform": "mws",
+      "skill": "Enterprise AI Engineer"
+    },
+    {
+      "id": "AGENT-10",
+      "platform": "cloudru",
+      "skill": "Cloud AI Engineer"
+    }
+  ],
+  "stages": [
+    "VERIFY_ZIP",
+    "READONLY_WINDOWS_PREFLIGHT",
+    "OWNER_APPROVED_INSTALL",
+    "OFFLINE_TESTS",
+    "PER_PLATFORM_AUTH",
+    "TREASURY_DESTINATION_PREFERENCE",
+    "AUTHORIZED_EXTERNAL_RUN"
+  ],
+  "deny": [
+    "ARBITRARY_SHELL",
+    "AUTO_ADMIN",
+    "DISABLE_SECURITY",
+    "PASSWORD_CAPTURE",
+    "SEED_PHRASE",
+    "AUTO_TRANSFER",
+    "PAID_CALL_WITHOUT_GRANT",
+    "IMPERIAL_WALLET_MIXING"
+  ],
+  "external_connections_verified": 0,
+  "income_verified": false,
+  "beneficiary_wallet_status": "PUBLIC_ADDRESS_ONLY_NOT_CONFIGURED",
+  "paid_services_allowed": false,
+  "guaranteed_income": false
+}
