@@ -4,7 +4,7 @@
 
 1. Read the [presentation](PRESENTATION_RU.md), [Windows setup](WINDOWS_DEVELOPER_SETUP_RU.md), [source map](DEVELOPER_SOURCE_MAP_RU.md), [security policy](../SECURITY.md) and [ten-agent handover contract](../enterprise/handover-contract.json).
 2. Obtain `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` directly and separately from its owner. The full ZIP/EXE is not hosted in this GitHub repository.
-3. Before extraction, perform the read-only ZIP verification described in [release registry](RELEASE_0_8_0_RC1.md). The historical preflight script path `scripts/preflight_handover.ps1` is **not present in the current GitHub tree**; do not pretend it is runnable. STOP on a wrong hash, absent Python/Tkinter, or incomplete archive.
+3. Before extraction, perform the read-only ZIP verification described in [release registry](RELEASE_0_8_0_RC1.md). Use the repository's read-only [PowerShell preflight](../scripts/preflight_handover.ps1) when it is available in the checked-out revision. Its execution must be explicitly authorized on the beneficiary's Windows PC. STOP on a wrong hash, absent Python/Tkinter, or incomplete archive.
 4. Obtain the beneficiary's explicit consent before extraction and installation. No administrator elevation, Defender disablement, BIOS changes or silent overwrites.
 5. Run `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `RUN_TESTS.cmd` and, if present in the independently verified ZIP, GUI/SQLite/agent smoke checks. Record actual results in the [acceptance sheet](PROGRAMMER_ACCEPTANCE_RU.md).
 6. Verify the Service Factory with `py -3.12 -m shpaizman.business_cli catalog` and a local synthetic demonstration only. A demo order is not actual revenue.
