@@ -1,4 +1,4 @@
-# Реестр полной Windows-поставки — 0.8.0 RC1
+# Complete Windows source package registry — SHPAIZMAN 0.8.0 RC1
 
 ```text
 Package: SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip
@@ -13,29 +13,29 @@ External platform sessions: 0/10 VERIFIED
 Real income: NOT VERIFIED
 ```
 
-Владелец подготовил ZIP, но **сам архив ещё не загружен в этот публичный GitHub-репозиторий**. Это принципиально: нельзя выдавать отсутствующий Release Asset или несуществующую ссылку на GitHub за рабочую загрузку. Получите исходный ZIP от владельца отдельно; SHA-256 нужно сравнить с независимо переданной контрольной суммой.
+The owner reported preparing the ZIP, but **the archive is not uploaded to this public GitHub repository**. Do not invent a GitHub Release asset or imply a working download exists. Obtain the source ZIP separately from the owner and compare its SHA-256 against a checksum supplied through a trusted independent channel.
 
-Проверка на доверенной машине из корня GitHub:
+Read-only verification from a trusted Windows host at the GitHub clone root:
 
 ```powershell
-py -3.12 -m enterprise.verify_release --zip-path "C:\\Path\\SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip" --expected-sha256 "9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e"
+py -3.12 -m enterprise.verify_release --zip-path "C:\Path\SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip" --expected-sha256 "9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e"
 ```
 
-Проверенный в предыдущем локальном этапе статус: `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXECUTED`, 88 SHA256-сверок, десять агентских исходников. Внутренний манифест не заменяет проверку внешнего SHA, а внешний SHA не является подписанным сертификатом автора.
+Previously reported candidate-stage evidence: `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXECUTED`, 88 SHA-256 comparisons and ten agent source files. Internal manifest checks are not a replacement for outer-archive integrity. An expected hash is not a signed publisher certificate.
 
-## Состав исходной программы внутри ZIP
+## Expected contents of the separate ZIP
 
 - `run.py`, `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `RUN_TESTS.cmd`, `DIAGNOSTICS.cmd`, `BUSINESS_FACTORY.cmd`
-- `shpaizman/orchestrator.py` + `registry.py` + `store.py` + `security.py` + `ui.py` + `telegram.py` + `beneficiary.py`
+- `shpaizman/orchestrator.py`, `registry.py`, `store.py`, `security.py`, `ui.py`, `telegram.py`, `beneficiary.py`
 - `shpaizman/agents/{albato,aimylogic,tomoru,twin,gigachat,yandex,nodul,bitrix24,mws,cloudru}.py`
-- `shpaizman/connectors/` — provider-specific adapters. **Наличие кода не равно действующему аккаунту или подтверждённому API.**
-- `shpaizman/business.py` и `business_cli.py` + `scripts/service_factory_demo.py`
+- `shpaizman/connectors/` — provider adapters; the presence of code is **not evidence of a live account or authorized API access**.
+- `shpaizman/business.py`, `business_cli.py`, `scripts/service_factory_demo.py`
 - `scripts/install.py`, `scripts/verify_manifest.py`, `scripts/astra_handover.py`, `scripts/preflight.ps1`
-- `docs/INSTALL_RU.md`, `PLATFORMS_RU.md`, `ASTRA_ENTERPRISE_HANDOVER_RU.md`, `SERVICE_FACTORY_RU.md`, `ACCEPTANCE_RU.md`
-- `tests/` и `SHA256SUMS.txt` — обязательные проверки и список содержимого.
+- `docs/INSTALL_RU.md`, `PLATFORMS_RU.md`, `ASTRA_ENTERPRISE_HANDOVER_RU.md`, `SERVICE_FACTORY_RU.md`, `ACCEPTANCE_RU.md` (historical ZIP entry names)
+- `tests/` and `SHA256SUMS.txt` — expected validation files and manifest.
 
-## Сравнение репозитория и ZIP
+## GitHub versus the standalone archive
 
-В GitHub сейчас опубликованы [конвейер заказов](../shpaizman/business.py), [CLI](../shpaizman/business_cli.py), [ZIP-верификатор](../enterprise/verify_release.py), [контракт ASTRA](../enterprise/handover-contract.json) и тесты. Отсутствующие `run.py`, `shpaizman/orchestrator.py`, `shpaizman/agents/*`, `shpaizman/connectors/*` предоставляются через полный 0.8 ZIP — не придумывайте недостающие модули и не пытайтесь запускать неполный клон как GUI-приложение.
+GitHub currently contains the [business engine](../shpaizman/business.py), [CLI](../shpaizman/business_cli.py), [ZIP verifier](../enterprise/verify_release.py), [ASTRA contract](../enterprise/handover-contract.json) and associated tests. The full `run.py`, `shpaizman/orchestrator.py`, `shpaizman/agents/*` and `shpaizman/connectors/*` are **not present in GitHub**. They are claimed as part of the separately delivered version 0.8 archive; do not invent these missing modules or treat a partial clone as the Windows GUI application.
 
-**Цель следующей публикации:** разместить проверенные полноценные исходники в GitHub после отдельной проверки лицензий, прав, секретов и Windows CI, затем выпустить официальный источник ZIP как versioned Release Asset. Этот документ фиксирует фактическое состояние, а не утверждает, что такая публикация уже сделана.
+**Future release gate:** publish rights-reviewed and secret-scanned sources, verify Windows CI, and then create a versioned GitHub Release asset with proven source integrity. This document states the current scope, not the successful completion of those future steps.
