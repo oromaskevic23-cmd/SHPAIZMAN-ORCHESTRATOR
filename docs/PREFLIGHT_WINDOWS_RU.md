@@ -1,12 +1,16 @@
-# Безопасная предварительная проверка Windows
+# Safe Windows pre-installation verification
 
-В публичном репозитории находится **только предустановочная проверка**, не скрытый установщик.
+The public GitHub repository contains a **read-only ZIP verifier**, not a concealed installer. The previously referenced `scripts/preflight_handover.ps1` is **not present in the current repository**, so do not attempt to run it.
+
+On the beneficiary's own Windows x64 machine, with Python 3.12 including Tkinter, run the available verifier from the repository root after receiving the separate ZIP from the owner:
 
 ```powershell
-cd "$env:USERPROFILE\Documents\SHPAIZMAN-ORCHESTRATOR"
-powershell.exe -NoProfile -File .\scripts\preflight_handover.ps1 -ArchivePath "$env:USERPROFILE\Downloads\SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip"
+$SourceZip = Join-Path $env:USERPROFILE "Downloads\SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip"
+py -3.12 --version
+py -3.12 -c "import tkinter,sqlite3; print('Python stdlib + Tkinter: OK')"
+py -3.12 -m enterprise.verify_release --zip-path "$SourceZip" --expected-sha256 "9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e"
 ```
 
-Команда требует Windows x64, Python 3.12 с Tkinter и SHA256 ZIP `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`. Она обращается только к локальным путям, запускает Python-модуль **чтения ZIP**, не извлекает содержимое, не скачивает файлы и ничего не устанавливает.
+This reads the ZIP and its expected SHA-256 and manifest. It does not extract the archive, install software, download packages, authorize an external account or execute code from the ZIP.
 
-После PASS откройте [полную инструкцию](WINDOWS_DEVELOPER_SETUP_RU.md). Брат отдельно разрешает распаковку и установку; пользовательский Windows-аккаунт и реальные API-ключи остаются под его контролем.
+After a verified PASS, follow [the full installation instructions](WINDOWS_DEVELOPER_SETUP_RU.md). The beneficiary must separately approve extraction and installation; his Windows account, API keys and data remain under his sole control.
