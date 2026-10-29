@@ -1,22 +1,22 @@
-# Инструкция программисту: запуск SHPAIZMAN 0.8.0 RC1 на Windows
+# SHPAIZMAN 0.8.0 RC1 — Windows developer setup
 
-**Адрес репозитория:** https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR
+**Repository:** https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR
 
-**Это двухкомпонентная передача.** Репозиторий содержит документацию, бизнес-ядро, SHA/ZIP-верификатор и CI. Полный Windows Python-код пока находится в **отдельном ZIP** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip`, который программист должен получить от владельца. GitHub не может автоматически загрузить отсутствующий архив. По одному README установка полного GUI невозможна.
+**Two-part handover:** this repository contains documentation, an offline business core, SHA/ZIP verifier and CI. The full Windows Python program is supplied **in a separate archive**, `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip`. The developer must obtain it from its owner. GitHub does not currently provide the full executable GUI source bundle, so this README alone cannot install that application.
 
-## 0. Что нужно
+## 0. Requirements
 
-- Windows 10/11 x64, обычная локальная учётная запись самого Александра Викторовича.
-- Python 3.12 x64, установленный с Python Launcher и Tcl/Tk: https://www.python.org/downloads/windows/ .
-- Git для Windows (для клонирования): https://git-scm.com/download/win . Либо скачать публичный репозиторий по **Code → Download ZIP** без Git.
-- Отдельно предоставленный `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` и независимо подтверждённый SHA-256 из [реестра поставки](RELEASE_0_8_0_RC1.md).
-- Не нужны Docker, Hyper-V, изменения BIOS, отключение Defender, платный AI API, GPU или MetaMask-ключи для первых локальных тестов.
+- Windows 10/11 x64, using the beneficiary Alexander Viktorovich's ordinary user session.
+- Python 3.12 x64, Python Launcher and Tcl/Tk: https://www.python.org/downloads/windows/ .
+- Git for Windows: https://git-scm.com/download/win , or use GitHub **Code → Download ZIP** for the public repository.
+- A separately supplied `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` and its independently confirmed SHA-256 listed in [package register](RELEASE_0_8_0_RC1.md).
+- Initial offline checks do not require Docker, Hyper-V, BIOS modification, Defender disablement, paid AI APIs, GPU or MetaMask secrets.
 
-**Подтверждение брата** требуется перед установкой, подключением аккаунтов, отправкой сообщений, финансовыми действиями и постоянным автозапуском.
+**The beneficiary's explicit approval** is required before installation, account connections, outbound messaging, financial activity and permanent auto-start.
 
-## 1. Забрать репозиторий
+## 1. Clone the public repository
 
-Откройте обычный **PowerShell** от пользователя брата, без Run as Administrator:
+Use the beneficiary's ordinary PowerShell session, **not Run as Administrator**:
 
 ```powershell
 cd "$env:USERPROFILE\Documents"
@@ -26,11 +26,11 @@ py -3.12 --version
 py -3.12 -c "import tkinter,sqlite3; print('Python stdlib + Tkinter: OK')"
 ```
 
-Если `git` недоступен, используйте GitHub **Code → Download ZIP** и распакуйте репозиторий в Documents. Не нужно вводить пароль GitHub в терминал для публичного read-only клона.
+If Git is unavailable, download the public repository from GitHub and extract the repository archive into Documents. No GitHub password is necessary for a public read-only clone.
 
-## 2. Проверить внешний Windows-архив **до распаковки**
+## 2. Verify the separate Windows archive **before extraction**
 
-Поместите ZIP, полученный от владельца, например, в `Downloads`. В корне GitHub-клона:
+Put the owner-supplied ZIP in Downloads, then at the repository root run:
 
 ```powershell
 $SourceZip = Join-Path $env:USERPROFILE "Downloads\SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip"
@@ -38,30 +38,30 @@ Get-FileHash -LiteralPath $SourceZip -Algorithm SHA256
 py -3.12 -m enterprise.verify_release --zip-path "$SourceZip" --expected-sha256 "9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e"
 ```
 
-Ожидается `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXECUTED` (или эквивалентный VERIFIED-статус вашей ревизии). Если внешний SHA не совпал, **прекратить установку** и перепроверить исходный файл другим разрешённым каналом. SHA в GitHub не доказывает авторство архива и не заменяет подпись издателя.
+Expect `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXECUTED` (or equivalent verified status for the exact revision). On mismatch, **STOP** and verify the source through a trusted channel. A GitHub-published checksum does not independently establish file authorship or replace a signed publisher certificate.
 
-## 3. Распаковать и ещё раз проверить
+## 3. Extract into a fresh directory and verify again
 
 ```powershell
 $ExtractRoot = Join-Path $env:USERPROFILE "Documents\SHPAIZMAN-Source-0.8.0"
-if (Test-Path -LiteralPath $ExtractRoot) { throw "Папка уже существует: запрещено перезаписывать." }
+if (Test-Path -LiteralPath $ExtractRoot) { throw "Destination exists: overwriting is prohibited." }
 Expand-Archive -LiteralPath $SourceZip -DestinationPath $ExtractRoot
 $App = Join-Path $ExtractRoot "SHPAIZMAN_BROTHER_EDITION"
 Set-Location -LiteralPath $App
 py -3.12 scripts\verify_manifest.py
 ```
 
-В `SHPAIZMAN_BROTHER_EDITION` должны быть: `run.py`, `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `shpaizman/orchestrator.py`, каталог `shpaizman/agents`, `tests`, `docs` и `SHA256SUMS.txt`.
+Verify that the extracted archive actually contains `run.py`, `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `shpaizman/orchestrator.py`, `shpaizman/agents/`, `tests/`, `docs/` and `SHA256SUMS.txt`.
 
-## 4. Установить локальную программу
+## 4. Install locally only after authorization
 
-Запустить из `$App` только после согласия брата:
+From `$App`, after the beneficiary approves installation:
 
 ```powershell
 .\INSTALL.cmd
 ```
 
-Исходный установщик создаёт отдельную версию программы под `%LOCALAPPDATA%\SHPAIZMAN-BROTHER-EDITION\app-0.8.0-rc1`. Он не требует прав администратора и **не должен перезаписывать** существующие данные. При ошибке смотрите `docs/INSTALL_RU.md` внутри ZIP. Не удаляйте старую установленную версию автоматически.
+The expected installer creates a separate version under `%LOCALAPPDATA%\SHPAIZMAN-BROTHER-EDITION\app-0.8.0-rc1`. It should not require administrator rights or overwrite existing application data. On an error, inspect `docs/INSTALL_RU.md` **inside the separate ZIP**. Do not automatically remove earlier installed versions.
 
 ```powershell
 $Installed = Join-Path $env:LOCALAPPDATA "SHPAIZMAN-BROTHER-EDITION\app-0.8.0-rc1"
@@ -69,9 +69,9 @@ Set-Location -LiteralPath $Installed
 .\START_SHPAIZMAN.cmd
 ```
 
-**Никаких скачиваний pip** для штатного Python/Tkinter/SQLite-режима не нужно. PyInstaller / EXE — отдельный этап сборки, в текущий ZIP не входит.
+The standard Tkinter/SQLite mode should not need new pip downloads. Building an EXE/PyInstaller is a separate unverified release step.
 
-## 5. Техническая приёмка до аккаунтов
+## 5. Perform technical acceptance before connecting accounts
 
 ```powershell
 .\RUN_TESTS.cmd
@@ -82,20 +82,20 @@ py -3.12 -m shpaizman.business_cli catalog
 py -3.12 -m scripts.service_factory_demo
 ```
 
-Заполнить [акт программиста](PROGRAMMER_ACCEPTANCE_RU.md) с точной версией Python, SHA ZIP, количеством прошедших тестов и отдельными результатами GUI, SQLite, десяти агентов и Service Factory. Отдельно проверить остановку оркестратора, сохранение SQLite после перезапуска и восстановление тестовой копии.
+Complete the [developer acceptance sheet](PROGRAMMER_ACCEPTANCE_RU.md) using observed Python version, archive SHA-256, test counts and separate results for the GUI, SQLite, ten agents and Service Factory. Also test controlled shutdown, SQLite state persistence and restoration from a test backup.
 
-## 6. Подключить 10 платформ только после локальной приёмки
+## 6. Connect the ten platforms only after local acceptance
 
-Руководство по настройке для каждой платформы и её API находится в **ZIP**: `docs/PLATFORMS_RU.md`. Матрица статусов есть в [AGENT_MATRIX.md](AGENT_MATRIX.md). Не передавайте токены в GitHub, README, коммиты, issue или чат. Профиль аккаунта брат создаёт лично через официальный сервис и проверяет ограничения бесплатного тарифа. Отсутствие разрешённых операций = `BLOCKED`.
+Platform-specific instructions are expected **inside the separate ZIP** as `docs/PLATFORMS_RU.md`. The [agent matrix](AGENT_MATRIX.md) describes their current verification status. Never put tokens in GitHub README files, commits, issues or chats. The beneficiary personally creates/authorizes accounts through official providers and independently checks any free-plan limits. Unauthorized actions remain `BLOCKED`.
 
-## 7. Настроить Telegram, адрес выплат и поддержку
+## 7. Telegram, payout address and support
 
-Telegram: бот создаётся через официальный [@BotFather](https://t.me/BotFather). Токен и ID брата вводятся **локально**. Тест: `/status`, `/agents`, `/crm` с разрешённого ID.
+Telegram setup is performed via the official [@BotFather](https://t.me/BotFather). The beneficiary enters the token and allowed Telegram user ID **locally**. Test `/status`, `/agents` and `/crm` only from authorized accounts.
 
-MetaMask: фиксируется только публичный адрес **при подтверждении брата**, секретная фраза никогда не запрашивается. Программа не делает переводов. Доход подтверждается только независимым платёжным источником, а не записями бизнес-CRM.
+MetaMask may use a beneficiary-approved **public** receive-only address on an eligible network. Never request recovery phrases, and do not claim the application moves funds. Payment requires an independent incoming-payment record, not merely a CRM entry.
 
-## 8. Что передать брату по завершении
+## 8. Handover checklist
 
-Папку установленного приложения, `SHA256` исходного ZIP, журнал локальных тестов, отчёт GUI/агентов, настроенные им аккаунты, перечень `BLOCKED` площадок, расположение базы/backup и [акт приёмки](PROGRAMMER_ACCEPTANCE_RU.md). Никакие пароли, ключи или seed-фразы не прикладывать.
+Provide the beneficiary with the actual installed folder, source ZIP SHA-256, local test logs, GUI/agent test results, his own configured accounts, blocked integrations, database/backup locations and [signed-off acceptance sheet](PROGRAMMER_ACCEPTANCE_RU.md). Never attach passwords, private keys or seed phrases.
 
-**Красная линия:** GitHub read-only подключение ASTRA не даёт ей права управления компьютером. Установка и настройки выполняются только через предоставленный братом локальный инструмент/его программиста.
+**Security boundary:** GitHub read-only access never authorizes ASTRA to control a Windows computer. An installation requires a locally authorized person or an explicitly authorized remote tool controlled by the beneficiary.
