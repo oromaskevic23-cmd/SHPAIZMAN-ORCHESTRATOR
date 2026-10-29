@@ -1,78 +1,56 @@
-# SHPAIZMAN — инженерная презентация для программиста
+# SHPAIZMAN — engineering presentation for an authorized developer
 
-**Версия поставки:** SHPAIZMAN Service Factory 0.8.0 RC1 · **Бенефициар:** Александр Викторович · **Автор архитектурного проекта:** RomaskevicH.
+**Delivery revision:** SHPAIZMAN Service Factory 0.8.0 RC1  
+**Beneficiary:** Alexander Viktorovich  
+**Project architecture:** Alexander Romaskevich (RomaskevicH)
 
-**Миссия:** один локальный оркестратор распределяет технические задания между десятью специализированными агентами; отдельное ядро Service Factory ведёт законные клиентские IT-заказы от заявки до предъявленного подтверждения расчёта.
+**Mission:** one local orchestrator routes approved technical tasks to ten specialized agents; a separate Service Factory reference manages legitimate client IT orders from inquiry through independent payment evidence.
 
-**Текущий уровень:** исходный Python-прототип + SQLite + Telegram (после настройки) + локальные проверки. Не подтверждены фактическая установка на ПК брата, внешние аккаунты, получение заказов, поступление денег и промышленная автономность.
+**Current truth:** Python source candidate, SQLite workflow, optional Telegram after setup, and local checks have been described. Actual installation on the beneficiary's computer, live third-party accounts, customer acquisition, payments and production autonomy are NOT VERIFIED.
 
-## За 60 секунд — архитектура
+## Architecture in 60 seconds
 
 ```mermaid
 flowchart TD
-    B["Александр Викторович — владелец и бенефициар"] --> A["Локальная ASTRA / программист"]
-    A --> P{"Разрешение на конкретное действие"}
-    P -->|есть| O["SHPAIZMAN Orchestrator"]
-    P -->|нет| X["BLOCKED / Zero Trust"]
-    O --> Q["Очередь задач, SQLite и журнал"]
-    Q --> G["10 специализированных агентов"]
-    G --> S["10 технологических адаптеров — 0/10 проверенных подключений"]
-    O --> F["Service Factory: 5 типов IT-услуг"]
-    F --> K["Согласие клиента → смета → контракт → выполнение → QA → акт → счёт"]
-    K --> L["Заявленная оплата ≠ подтверждённое поступление"]
-    L --> M["Брат: легальные расчётные реквизиты, MetaMask если поддерживается"]
+    B["Alexander Viktorovich — sole beneficiary"] --> A["Authorized local ASTRA / developer"]
+    A --> P{"Per-action authorization"}
+    P -->|Granted| O["SHPAIZMAN Orchestrator"]
+    P -->|Denied| X["BLOCKED / Zero Trust"]
+    O --> Q["Task queue, SQLite and audit evidence"]
+    Q --> G["10 specialized agents"]
+    G --> S["10 technology adapters — 0/10 verified connections"]
+    O --> F["Service Factory — 5 IT service types"]
+    F --> K["Customer consent → quote → contract → execution → QA → acceptance → invoice"]
+    K --> L["Claimed payment is not verified settlement"]
+    L --> M["Beneficiary-controlled lawful payment route"]
 ```
 
-## Что находится в GitHub
+## What is actually in GitHub
 
-| Компонент | Назначение | Исходники |
-|---|---|---|
-| Business Engine | Исполняемый конвейер заказов с SQLite, состояниями и идемпотентностью | [business.py](../shpaizman/business.py) |
-| Business CLI | Проверяемые команды каталога, заказов и учёта | [business_cli.py](../shpaizman/business_cli.py) |
-| Защитный верификатор ZIP | Проверка SHA-256, списка агентов, путей и манифеста без запуска файлов | [verify_release.py](../enterprise/verify_release.py) |
-| Контракт ASTRA | Роли, 10 площадок и запретные полномочия | [handover-contract.json](../enterprise/handover-contract.json) |
-| Автоматические тесты | Отказы при неправильных операциях и изменённом ZIP | [tests](../tests) · [CI](../.github/workflows/enterprise-verification.yml) |
-| Полная GUI-программа, агенты и коннекторы | Python-комплект Windows, **ещё не опубликованный в самом GitHub** | [Как получить и проверить ZIP](RELEASE_0_8_0_RC1.md) |
+| Component | Purpose | Source |
+| --- | --- | --- |
+| Business Engine | Offline order processing with SQLite, states and idempotence | [business.py](../shpaizman/business.py) |
+| Business CLI | Inspectable commands for catalog, jobs and accounting | [business_cli.py](../shpaizman/business_cli.py) |
+| Archive integrity verifier | Read-only SHA-256, path and agent manifest verification without executing ZIP contents | [verify_release.py](../enterprise/verify_release.py) |
+| ASTRA handover contract | Ten provider adapters, rights and disallowed operations | [handover-contract.json](../enterprise/handover-contract.json) |
+| Tests | Negative/adversarial checks and verification | [tests](../tests) · [CI](../.github/workflows/enterprise-verification.yml) |
+| Complete Windows GUI/agent/connector source | **Not present in this GitHub repository** | [Separately provided ZIP](RELEASE_0_8_0_RC1.md) |
 
-**Примечание для разработчика:** у GitHub пока есть проверенное бизнес-ядро и безопасный handover, но не всё содержимое Windows ZIP. Не пытайтесь запускать `python run.py` из клона: полноценный `run.py` нужно брать из ZIP 0.8.0 RC1. Недостающие ссылки не изображаются рабочими.
+**Developer warning:** `python run.py` cannot be run from this public clone. The full application is only purportedly included in a separately delivered and independently verified ZIP. Do not misrepresent missing files as available.
 
-## Начните здесь
+## Recommended verified handover sequence
 
-<details><summary><b>1. Скачать, сверить и безопасно распаковать</b></summary>
+1. **Receive and verify.** Read the [Windows setup](WINDOWS_DEVELOPER_SETUP_RU.md) and [archive registry](RELEASE_0_8_0_RC1.md). Verify the separately supplied ZIP against its outer SHA-256 and internal manifest using the repository's read-only verifier. The verifier must not execute archive code.
+2. **Install with consent.** On Windows 10/11 x64 with Python 3.12 x64/Tkinter, use the verified archive's `INSTALL.cmd` only with explicit approval and without administrator rights. See [Windows setup](WINDOWS_DEVELOPER_SETUP_RU.md).
+3. **Verify components locally.** Run the verified bundle's `RUN_TESTS.cmd`, `run.py smoke` and `py -3.12 -m shpaizman.business_cli catalog`; confirm ten agents and safe STOP. Offline demonstration is not real customer fulfillment.
+4. **Authorize providers separately.** Review the [ten-platform matrix](AGENT_MATRIX.md) and [security policy](../SECURITY.md). Only owner-authorized accounts with validated free plans are eligible. TOMORU and MWS AI Agents remain blocked without confirmed lawful/API access.
+5. **Record actual results.** Complete the [Windows acceptance document](PROGRAMMER_ACCEPTANCE_RU.md). Do not mark INSTALL=PASS without actual target-machine logs or EARNING=PASS without independent payment evidence.
 
-Прочитайте [руководство установки](WINDOWS_DEVELOPER_SETUP_RU.md) и [протокол поставки](RELEASE_0_8_0_RC1.md). Для проверки действительного 0.8 ZIP используйте `python -m enterprise.verify_release --zip-path <путь> --expected-sha256 9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e` из корня GitHub-клона. Скрипт **ничего не выполняет** из ZIP.
+## Rights and safety
 
-</details>
+- **100% of legally earned beneficiary revenue** belongs to Alexander Viktorovich; IMPERIAL Core does not own his accounts or receive his payments.
+- A MetaMask wallet, when supported and approved, is only a public receive-only address; never expose recovery phrases or private keys and never automate wallet transfers.
+- No administrator escalation, antivirus disablement, unauthorized account access, unapproved paid APIs, mass messaging or concealed fund movement.
+- On checksum mismatch, failed test, missing consent or unsupported provider API: **BLOCKED**, with an auditable reason.
 
-<details><summary><b>2. Установить на Windows — только с согласия брата</b></summary>
-
-Нужен Windows 10/11 x64 и Python 3.12 x64 с Tkinter. В папке распакованного ZIP выполните `INSTALL.cmd`, затем `START_SHPAIZMAN.cmd`. Запуск без административных прав. Подробнее — в [Windows Developer Setup](WINDOWS_DEVELOPER_SETUP_RU.md).
-
-</details>
-
-<details><summary><b>3. Проверить десять агентов, оркестратор и бизнес-ядро</b></summary>
-
-`RUN_TESTS.cmd`, локальный `run.py smoke` и `py -3.12 -m shpaizman.business_cli catalog`. До подключения аккаунтов никакие внешние заказы или переводы средств не происходят.
-
-</details>
-
-<details><summary><b>4. Подключать внешние сервисы по одному</b></summary>
-
-Учитывайте [10 технологических платформ](AGENT_MATRIX.md) и [шлюзы безопасности](../SECURITY.md). Для каждой требуется собственный разрешённый аккаунт, проверенные условия бесплатного доступа и одобрение брата. TOMORU и MWS AI Agents остаются заблокированы, пока нет проверенного метода доступа.
-
-</details>
-
-<details><summary><b>5. Верифицировать результат передачи</b></summary>
-
-Проверять по [акту приёмки](PROGRAMMER_ACCEPTANCE_RU.md). Не выставлять INSTALL=PASS, пока нет журнала с реального компьютера; не выставлять EARNING=PASS, пока нет независимо подтверждённой оплаты.
-
-</details>
-
-## Права и безопасность
-
-- **Кошелёк и 100% законно принадлежащей брату выручки** — только у Александра Викторовича; IMPERIAL Core не владеет его счетами и не получает выплаты.
-- MetaMask — локальная настройка **публичного** адреса в разрешённой сети, а не источник заказов или автоматическая касса. Recovery phrase и приватные ключи не требуются.
-- Запрещены автоматическая установка с повышением прав, выключение Windows Defender, сканирование чужих аккаунтов, платные вызовы без разрешения, массовая рассылка и скрытая отправка средств.
-- При несовпадении хеша, неудачном тесте, отсутствии разрешения или отсутствии официального API — **BLOCKED**, с журналом причины.
-
-**Следующий инженерный рубеж:** реальная Windows-приёмка, 1 разрешённое подключение с проверенным нулевым бюджетом, 1 демонстрационный IT-заказ и независимая проверка результатов. Не обещание дохода.
+**Next engineering milestone:** actual Windows acceptance, one separately authorized free-tier provider, one synthetic IT order and independent review. No promised income or ready-made corporation claim.
