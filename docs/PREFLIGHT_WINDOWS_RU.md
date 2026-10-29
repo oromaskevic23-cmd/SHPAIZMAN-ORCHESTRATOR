@@ -1,6 +1,6 @@
 # Safe Windows pre-installation verification
 
-The public GitHub repository contains a **read-only ZIP verifier**, not a concealed installer. The previously referenced `scripts/preflight_handover.ps1` is **not present in the current repository**, so do not attempt to run it.
+The public GitHub repository contains a **read-only ZIP verifier**, not a concealed installer. The repository includes an additional [read-only PowerShell preflight](../scripts/preflight_handover.ps1). It performs local integrity and environment checks without executing the archive.
 
 On the beneficiary's own Windows x64 machine, with Python 3.12 including Tkinter, run the available verifier from the repository root after receiving the separate ZIP from the owner:
 
