@@ -1,16 +1,16 @@
-# Задание для ASTRA на компьютере Александра Викторовича
+# ASTRA technical handover — beneficiary's Windows computer
 
-**Роль:** ограниченный технический исполнитель, а не владелец и не администратор. Условие: брат отдельно предоставляет законный доступ к своей Windows-сессии и одобряет конкретные действия. Подключения только к GitHub для управления ПК **недостаточно**.
+**Authority:** ASTRA is a bounded technical assistant, not the beneficiary, system owner or administrator. The beneficiary must independently authorize access to his own Windows session and approve each consequential action. GitHub access alone never grants computer control.
 
-1. Прочитай [презентацию](PRESENTATION_RU.md), [Windows Setup](WINDOWS_DEVELOPER_SETUP_RU.md), [карту кода](DEVELOPER_SOURCE_MAP_RU.md), [SECURITY](../SECURITY.md), [контракт 10 агентов](../enterprise/handover-contract.json).
-2. Получи у владельца отдельно `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip`. Не утверждай, что он скачивается из GitHub — там пока нет ZIP или EXE.
-3. До распаковки выполни read-only [preflight](../scripts/preflight_handover.ps1). При неверном SHA, отсутствии Python/Tkinter или неполном архиве — **STOP**.
-4. Получи согласие брата на распаковку и установку. Без admin, без отключения антивируса, без перезаписи действующей версии и без изменения BIOS.
-5. Запусти `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `RUN_TESTS.cmd`, GUI smoke, SQLite backup/restore и локальный smoke **10/10**. Запиши реальные результаты в [акт приёмки](PROGRAMMER_ACCEPTANCE_RU.md).
-6. Проверь Service Factory: `py -3.12 -m shpaizman.business_cli catalog`, затем только тестовую локальную демонстрацию. Тестовый заказ не равен доходу.
-7. Подключай каждую платформу отдельно, только через официальный разрешённый аккаунт брата и подтверждённый бесплатный план. Никаких платежей, спама, обходов ToS, повышения прав или автоматического принятия договоров.
-8. Telegram-токен и авторизованный ID вводит брат **локально**. В чате и GitHub не записывать секреты, seed phrase, банковские данные или private key.
-9. MetaMask — только публичный адрес с подтверждённым выбором сети брата; отсутствие поддержки выплаты в этой сети оставляет вывод BLOCKED.
-10. Передай брату локальный акт: SHA ZIP, путь установки, версии, логи тестов, список реально подключённых платформ, ограничения и расположение резервной копии.
+1. Read the [presentation](PRESENTATION_RU.md), [Windows setup](WINDOWS_DEVELOPER_SETUP_RU.md), [source map](DEVELOPER_SOURCE_MAP_RU.md), [security policy](../SECURITY.md) and [ten-agent handover contract](../enterprise/handover-contract.json).
+2. Obtain `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` directly and separately from its owner. The full ZIP/EXE is not hosted in this GitHub repository.
+3. Before extraction, perform the read-only ZIP verification described in [release registry](RELEASE_0_8_0_RC1.md). The historical preflight script path `scripts/preflight_handover.ps1` is **not present in the current GitHub tree**; do not pretend it is runnable. STOP on a wrong hash, absent Python/Tkinter, or incomplete archive.
+4. Obtain the beneficiary's explicit consent before extraction and installation. No administrator elevation, Defender disablement, BIOS changes or silent overwrites.
+5. Run `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `RUN_TESTS.cmd` and, if present in the independently verified ZIP, GUI/SQLite/agent smoke checks. Record actual results in the [acceptance sheet](PROGRAMMER_ACCEPTANCE_RU.md).
+6. Verify the Service Factory with `py -3.12 -m shpaizman.business_cli catalog` and a local synthetic demonstration only. A demo order is not actual revenue.
+7. Connect each supported platform separately through the beneficiary's own authorized accounts and independently validated free plans. No spending, spam, ToS bypass, privilege escalation or autonomous binding contracts.
+8. The beneficiary configures the Telegram token and authorized user ID **locally**. Never write credentials, wallet recovery phrases, bank details or private keys into GitHub or chats.
+9. MetaMask may use only a beneficiary-approved **public receiving address** on a supported network. If payments are unsupported, payouts remain BLOCKED.
+10. Handover locally: package hash, installation path, versions, actual test logs, genuinely connected accounts, blockers and backup location.
 
-**Stop condition:** ошибка проверки, неподтверждённое право, риск платного списания или неизвестный источник кода. Не имитируй успешную установку, внешние аккаунты, клиенты или реальные платежи.
+**Stop conditions:** integrity mismatch, absent authorization, paid-charge risk or unverified source. Do not report fictitious installations, accounts, customers or payments.
