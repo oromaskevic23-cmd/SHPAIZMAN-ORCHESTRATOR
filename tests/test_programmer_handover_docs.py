@@ -36,18 +36,20 @@ class HandoverDocumentTests(unittest.TestCase):
   readme=(ROOT/"README.md").read_text(encoding="utf8")
   release=(ROOT/"docs/RELEASE_0_8_0_RC1.md").read_text(encoding="utf8")
   self.assertIn("is not present in this GitHub repository",readme)
-  self.assertIn("the archive is not uploaded to this public GitHub repository",release.lower())
+  self.assertIn("zip archive is not uploaded to this public github repository",release.lower())
   self.assertFalse((ROOT/"run.py").exists())
   self.assertFalse((ROOT/"SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip").exists())
- def test_preflight_never_installs_or_fetches_remote_code(self):
-  s=(ROOT/"scripts/preflight_handover.ps1").read_text(encoding="utf8")
-  for item in ("Get-FileHash","enterprise.verify_release","PYTHON_312_TKINTER_REQUIRED",
-               "SOURCE_ZIP_INTERNAL_VERIFICATION_FAILED"):
-   self.assertIn(item,s)
-  for pattern in (r"\bInvoke-Expression\b",r"\bStart-Process\b",
-                  r"\bExpand-Archive\b",r"\bInvoke-WebRequest\b",
-                  r"\bSet-ExecutionPolicy\b"):
-   self.assertNotRegex(s,pattern)
+ def test_preflight_is_read_only_and_references_present_files(self):
+  # The historical script is not in this repository. Fail on invented paths.
+  self.assertFalse((ROOT/"scripts/preflight_handover.ps1").exists())
+  guide=(ROOT/"docs/PREFLIGHT_WINDOWS_RU.md").read_text(encoding="utf8")
+  self.assertIn("not present in the current repository",guide)
+  self.assertIn("enterprise.verify_release",guide)
+  self.assertIn(PIN,guide)
+  verifier=(ROOT/"enterprise/verify_release.py").read_text(encoding="utf8")
+  for pattern in (r"\bsubprocess\.",r"\bos\.system\(",r"\bextractall\(",
+                  r"\bInvoke-WebRequest\b"):
+   self.assertNotRegex(verifier,pattern)
  def test_ten_agents_and_denied_external_money(self):
   import json
   obj=json.loads((ROOT/"enterprise/handover-contract.json").read_text())
