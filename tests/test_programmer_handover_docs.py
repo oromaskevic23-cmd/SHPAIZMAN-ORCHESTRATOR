@@ -35,8 +35,8 @@ class HandoverDocumentTests(unittest.TestCase):
  def test_no_false_bundle_claims(self):
   readme=(ROOT/"README.md").read_text(encoding="utf8")
   release=(ROOT/"docs/RELEASE_0_8_0_RC1.md").read_text(encoding="utf8")
-  self.assertIn("не загружен",readme)
-  self.assertIn("ещё не загружен",release)
+  self.assertIn("is not present in this GitHub repository",readme)
+  self.assertIn("the archive is not uploaded to this public GitHub repository",release.lower())
   self.assertFalse((ROOT/"run.py").exists())
   self.assertFalse((ROOT/"SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip").exists())
  def test_preflight_never_installs_or_fetches_remote_code(self):
