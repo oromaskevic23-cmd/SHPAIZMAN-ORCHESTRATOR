@@ -2,6 +2,10 @@
 
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
+<p align="center">
+  <img src="assets/shpaizman-orchestrator.webp" alt="Shpaizman Orchestrator — official promotional portrait" width="420" />
+</p>
+
 [![Enterprise Verification](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml/badge.svg)](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml)
 
 > **Developer handover:** [Project presentation](docs/PRESENTATION_RU.md) → [Step-by-step Windows setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) → [ZIP verification and checksum](docs/RELEASE_0_8_0_RC1.md) → [Acceptance checklist](docs/PROGRAMMER_ACCEPTANCE_RU.md).
