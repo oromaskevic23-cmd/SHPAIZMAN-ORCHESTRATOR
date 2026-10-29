@@ -14,6 +14,8 @@
 | ZIP verification | [Verifier](../enterprise/verify_release.py), [tests](../tests/test_enterprise_release.py) | `SHA256SUMS.txt` |
 | Windows acceptance | [Checklist](PROGRAMMER_ACCEPTANCE_RU.md), [CI](../.github/workflows/enterprise-verification.yml) | `RUN_TESTS.cmd`, `tests/`, `DIAGNOSTICS.cmd` |
 
+A [read-only Windows PowerShell preflight](../scripts/preflight_handover.ps1) is also present in the repository and must only run with the beneficiary's authorization.
+
 **Review sequence:** [presentation](PRESENTATION_RU.md) → [ZIP preflight](PREFLIGHT_WINDOWS_RU.md) → [Windows installation](WINDOWS_DEVELOPER_SETUP_RU.md) → [acceptance sheet](PROGRAMMER_ACCEPTANCE_RU.md).
 
 The ten providers are technology integrations for IT service delivery, **not ten proven marketplaces**. There are 0/10 verified live accounts and no independently confirmed cash receipts. Historical scripts/commits must never be executed automatically.
