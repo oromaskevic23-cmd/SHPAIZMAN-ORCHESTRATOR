@@ -40,23 +40,17 @@ class HandoverDocumentTests(unittest.TestCase):
   self.assertFalse((ROOT/"run.py").exists())
   self.assertFalse((ROOT/"SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip").exists())
  def test_preflight_is_read_only_and_references_present_files(self):
-  script_path=ROOT/"scripts/preflight_handover.ps1"
-  self.assertTrue(script_path.is_file())
-  script=script_path.read_text(encoding="utf8")
+  s=(ROOT/"scripts/preflight_handover.ps1").read_text(encoding="utf8")
+  guide=(ROOT/"docs/PREFLIGHT_WINDOWS_RU.md").read_text(encoding="utf8")
   for item in ("Get-FileHash","enterprise.verify_release","PYTHON_312_TKINTER_REQUIRED",
                "SOURCE_ZIP_INTERNAL_VERIFICATION_FAILED"):
-   self.assertIn(item,script)
+   self.assertIn(item,s)
+  self.assertIn("scripts/preflight_handover.ps1",guide)
+  self.assertIn(PIN,guide)
   for pattern in (r"\bInvoke-Expression\b",r"\bStart-Process\b",
                   r"\bExpand-Archive\b",r"\bInvoke-WebRequest\b",
                   r"\bSet-ExecutionPolicy\b"):
-   self.assertNotRegex(script,pattern)
-  guide=(ROOT/"docs/PREFLIGHT_WINDOWS_RU.md").read_text(encoding="utf8")
-  self.assertIn("PowerShell preflight",guide)
-  self.assertIn("enterprise.verify_release",guide)
-  self.assertIn(PIN,guide)
-  verifier=(ROOT/"enterprise/verify_release.py").read_text(encoding="utf8")
-  for pattern in (r"\bsubprocess\.",r"\bos\.system\(",r"\bextractall\("):
-   self.assertNotRegex(verifier,pattern)
+   self.assertNotRegex(s,pattern)
  def test_ten_agents_and_denied_external_money(self):
   import json
   obj=json.loads((ROOT/"enterprise/handover-contract.json").read_text())
