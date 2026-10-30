@@ -1,5 +1,7 @@
 # SHPAIZMAN ORCHESTRATOR — Enterprise Brother Edition
 
+**Project founder and founding architect:** Alexander Nikolaevich Romaskevich (RomaskevicH). [Authorship and contribution provenance](AUTHORS.md).
+
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
 <p align="center">
