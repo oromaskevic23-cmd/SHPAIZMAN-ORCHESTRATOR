@@ -91,3 +91,14 @@ A public GitHub clone does not grant remote access to the beneficiary's computer
 ### Canonical founder and public project identity
 
 This public repository is listed in the [founder-maintained IMPERIAL Core engineering portfolio](https://oromaskevic23-cmd.github.io/oromaskevic23-cmd/projects/). The public [engineering source registry](https://oromaskevic23-cmd.github.io/Capital-Core-Public/reference/projects/) links this source to the account's published project records under **Alexander Nikolaevich Romaskevich (RomaskevicH)**, Founder, Owner and CEO of IMPERIAL Core and its final architectural decision authority. Repository-specific governance, contributor rights, third-party intellectual property, and documented independence of individual projects remain unchanged. Publication does not prove production execution, market adoption or Google indexing.
+
+
+## HARVEY-pattern local commercial planning — ten agents, no external connections
+
+**New first-party offline upgrade:** [Engineering design / commands](docs/HARVEY_TEN_AGENT_UPGRADE.md) · [Queue and provider registry](shpaizman/harvey_bridge.py) · [Operator CLI](shpaizman/harvey_cli.py) · [Negative-path tests](tests/test_harvey_bridge.py).
+
+All **ten original specialist agents** now have a separately bounded local prospect-review/solution-plan/offer-draft queue. An additional **21 technology candidates** mentioned in the Alice overview are classified as research-only and mapped to existing agents, **not** claimed as new connected agents or client marketplaces. The implementation adapts sales-agent workflow ideas from [Harvey (ethanplusai/harvey, MIT)](https://github.com/ethanplusai/harvey) without importing its source or accounts.
+
+One offline draft per invoked cycle, local SQLite evidence, per-agent quotas, idempotency and manual stop are implemented; output requires explicit beneficiary review. **Not implemented:** automatic prospect search, third-party login/API integrations, outreach, always-on server agents, signed human approval or actual received revenue. External connections remain **0/10 independently verified**.
+
+Run `python -m shpaizman.harvey_cli catalog` and `python -m shpaizman.harvey_cli status` on an authorized machine to inspect the safe local controls. This public repository still does not contain the separate complete Windows ZIP, and changes here do not install anything on Alexander Viktorovich's computer.
