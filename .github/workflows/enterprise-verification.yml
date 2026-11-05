@@ -56,6 +56,22 @@ jobs:
           print("PASS: real offline business executable, ten agents, zero fake revenue")
           PY
 
+      - name: HARVEY ten-agent catalog and fail-closed smoke
+        run: |
+          python -m shpaizman.harvey_cli catalog > /tmp/harvey-catalog.json
+          python -m shpaizman.harvey_cli --data-dir /tmp/shpaizman-ci-harvey status > /tmp/harvey-status.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path("/tmp/harvey-catalog.json").read_text())
+          s=json.loads(Path("/tmp/harvey-status.json").read_text())
+          assert len(a["core"])==10 and len(a["extensions"])==21
+          assert not s["local_processing_enabled"]
+          assert s["provider_connections_verified"]==0
+          assert s["independently_verified_revenue_minor"]==0
+          print("PASS: HARVEY-pattern 10 offline agent queues and 21 research-only candidates")
+          PY
+
   windows-programmer-docs:
     runs-on: windows-2022
     timeout-minutes: 10
