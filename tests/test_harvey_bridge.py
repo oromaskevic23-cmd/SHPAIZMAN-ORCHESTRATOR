@@ -1,5 +1,6 @@
 """Deterministic, adversarial tests of the offline per-agent commercial planning bridge."""
 import json
+from contextlib import closing
 import sqlite3
 import tempfile
 import unittest
@@ -111,7 +112,7 @@ class HarveyBridgeTests(unittest.TestCase):
         task = self.enqueue()
         self.bridge.set_enabled(True, local_operator_ack=True)
         self.bridge.cycle("albato")
-        with sqlite3.connect(self.bridge.path) as db:
+        with closing(sqlite3.connect(self.bridge.path)) as db, db:
             with self.assertRaises(sqlite3.IntegrityError):
                 db.execute("DELETE FROM audit WHERE task_id=?", (task["id"],))
             db.execute("UPDATE tasks SET artifact_json=? WHERE id=?", (json.dumps({"fake":True}), task["id"]))
