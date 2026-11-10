@@ -1,5 +1,6 @@
 """Deterministic, adversarial tests of the offline per-agent commercial planning bridge."""
 import json
+from hashlib import sha256
 from contextlib import closing
 import sqlite3
 import tempfile
@@ -8,7 +9,7 @@ from pathlib import Path
 
 from shpaizman.business import PLATFORMS
 from shpaizman.harvey_bridge import (
-    HarveyBridge, HarveyDenied, catalog, EXTENSIONS, CORE_LABELS,
+    HarveyBridge, HarveyDenied, catalog, canonical, EXTENSIONS, CORE_LABELS,
 )
 
 
@@ -117,6 +118,33 @@ class HarveyBridgeTests(unittest.TestCase):
                 db.execute("DELETE FROM audit WHERE task_id=?", (task["id"],))
             db.execute("UPDATE tasks SET artifact_json=? WHERE id=?", (json.dumps({"fake":True}), task["id"]))
         with self.assertRaisesRegex(HarveyDenied, "TAMPERED"):
+            self.bridge.verify()
+
+    def test_changed_queued_request_is_blocked_even_if_its_cached_hash_is_rewritten(self):
+        task = self.enqueue()
+        self.bridge.set_enabled(True, local_operator_ack=True)
+        with closing(sqlite3.connect(self.bridge.path)) as db, db:
+            db.row_factory = sqlite3.Row
+            row = db.execute("SELECT * FROM tasks WHERE id=?", (task["id"],)).fetchone()
+            details = {k: row[k] for k in ("agent", "provider", "task_type", "title", "source_url")}
+            details["title"] = "A different customer request"
+            changed_hash = sha256(canonical(details).encode()).hexdigest()
+            db.execute("UPDATE tasks SET title=?,request_hash=? WHERE id=?",
+                       (details["title"], changed_hash, task["id"]))
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_TASK_REQUEST_TAMPERED"):
+            self.bridge.cycle("albato")
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_TASK_REQUEST_TAMPERED"):
+            self.bridge.verify()
+        self.assertEqual(self.bridge.task(task["id"])["state"], "QUEUED")
+
+    def test_changed_completed_request_is_detected(self):
+        task = self.enqueue()
+        self.bridge.set_enabled(True, local_operator_ack=True)
+        self.bridge.cycle("albato")
+        with closing(sqlite3.connect(self.bridge.path)) as db, db:
+            db.execute("UPDATE tasks SET source_url=? WHERE id=?",
+                       ("https://example.com/changed", task["id"]))
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_TASK_REQUEST_TAMPERED"):
             self.bridge.verify()
 
     def test_local_queue_limit_is_bounded(self):

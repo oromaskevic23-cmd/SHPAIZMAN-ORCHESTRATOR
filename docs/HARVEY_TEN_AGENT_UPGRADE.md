@@ -34,6 +34,7 @@ flowchart TD
 
 - `shpaizman/harvey_bridge.py`: validated catalog, one agent per provider, enqueue with idempotency key, local SQLite persistence, bounded one-job cycle, 100 pending tasks per agent, 50 drafts per UTC day and manual persisted stop switch.
 - `shpaizman/harvey_cli.py`: local commands `catalog`, `enqueue`, `resume`, `cycle`, `task`, `status`, `verify`, `pause`.
+- Before processing and during verification, queued request fields are checked against their original local audit digest. This detects partial changes to the SQLite task record; an attacker who can rewrite the entire local database and chain is outside this check's protection.
 - `tests/test_harvey_bridge.py`: isolation, all ten local agent cycles, idempotency conflict, bad URL rejection, kill switch, journal mutation and quota checks.
 - All outputs are **deterministic local planning drafts** and service mappings. They do not search the internet, infer live clients, call LLMs or providers, send emails, submit proposals, initiate calls, transfer funds or produce verified revenue.
 - Audit-chain hashes detect many accidental and partial changes, NOT a sufficiently privileged adversary rewriting the whole SQLite database. The CLI `resume` is an **unauthenticated local operator assertion**, not an enterprise identity system.

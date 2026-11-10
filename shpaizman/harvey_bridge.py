@@ -243,6 +243,16 @@ class HarveyBridge:
         return {k: task[k] for k in ("id", "agent", "provider", "task_type", "state")}
 
     @staticmethod
+    def _check_task_request(db, task):
+        """Check the stored request against its original local audit digest."""
+        details = {k: task[k] for k in ("agent", "provider", "task_type", "title", "source_url")}
+        digest = sha256(canonical(details).encode()).hexdigest()
+        events = db.execute("SELECT details_sha256 FROM audit WHERE event_type='ENQUEUED'"
+                            " AND task_id=?", (task["id"],)).fetchall()
+        if len(events) != 1 or digest != task["request_hash"] or digest != events[0][0]:
+            raise HarveyDenied("LOCAL_TASK_REQUEST_TAMPERED")
+
+    @staticmethod
     def _artifact(task):
         candidate_services = [name for name, spec in SERVICES.items()
                               if task["agent"] in spec["agents"]]
@@ -289,6 +299,7 @@ class HarveyBridge:
                 db.commit()
                 return {"agent": agent, "processed": 0, "state": "IDLE"}
             task = dict(row)
+            self._check_task_request(db, task)
             result = self._artifact(task)
             db.execute("UPDATE tasks SET state='DRAFT_READY',finished_at=?,"
                        "artifact_json=? WHERE id=? AND state='QUEUED'",
@@ -345,6 +356,7 @@ class HarveyBridge:
             digest_by_task = {r["task_id"]: r["details_sha256"]
                               for r in events if r["event_type"] == "DRAFT_READY"}
             for t in tasks:
+                self._check_task_request(db, t)
                 if t["state"] == "DRAFT_READY":
                     if (t["artifact_json"] is None or
                             sha256(t["artifact_json"].encode()).hexdigest() != digest_by_task[t["id"]]):
