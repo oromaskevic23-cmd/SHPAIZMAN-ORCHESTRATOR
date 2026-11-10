@@ -1,10 +1,8 @@
 # SHPAIZMAN ORCHESTRATOR — Enterprise Brother Edition
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/oromaskevic23-cmd/oromaskevic23-cmd/main/assets/alexander-romaskevich-portrait-20261110.jpg" alt="Alexander Nikolaevich Romaskevich, Founder, Owner and CEO of IMPERIAL Core" width="160" />
-</p>
+**Project author:** Alexander Nikolaevich Romaskevich (RomaskevicH).
 
-**Project founder and founding architect:** Alexander Nikolaevich Romaskevich (RomaskevicH). [Authorship and contribution provenance](AUTHORS.md).
+**Dedication:** A gift to my brother, Alexander Viktorovich. [Authorship and contribution provenance](AUTHORS.md).
 
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
@@ -88,13 +86,6 @@ Some document filenames retain their historical `_RU` suffix for link and toolin
 A public GitHub clone does not grant remote access to the beneficiary's computer. All installation and platform connections require his explicit consent and local, authorized operation.
 
 **SHPAIZMAN: Build a real service. Verify every result.**
-
-
----
-
-### Canonical founder and public project identity
-
-This public repository is listed in the [founder-maintained IMPERIAL Core engineering portfolio](https://oromaskevic23-cmd.github.io/oromaskevic23-cmd/projects/). The public [engineering source registry](https://oromaskevic23-cmd.github.io/Capital-Core-Public/reference/projects/) links this source to the account's published project records under **Alexander Nikolaevich Romaskevich (RomaskevicH)**, Founder, Owner and CEO of IMPERIAL Core and its final architectural decision authority. Repository-specific governance, contributor rights, third-party intellectual property, and documented independence of individual projects remain unchanged. Publication does not prove production execution, market adoption or Google indexing.
 
 
 ## HARVEY-pattern local commercial planning — ten agents, no external connections
