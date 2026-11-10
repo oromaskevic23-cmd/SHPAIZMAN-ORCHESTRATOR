@@ -8,12 +8,12 @@
 **GitHub:** https://github.com/oromaskevic23-cmd
 
 ## Attribution scope and limits
-This is a **founder/project-level declaration**, not a claim of personal authorship of every line of code, a copyright transfer, a new software license or proof of registered ownership. Git commit authors, contributor acknowledgements, upstream licenses and third-party copyright notices must be preserved. No prior commits or tags may be rewritten to alter attribution.
+This is a **project-level attribution**, not a claim of personal authorship of every line of code, a copyright transfer, a new software license or proof of registered ownership. Git commit authors, contributor acknowledgements, upstream licenses and third-party copyright notices must be preserved. No prior commits or tags may be rewritten to alter attribution.
 
 ## License review
 The repository has a top-level [LICENSE](LICENSE), including restrictions on commercial use. Dependencies, nested folders and copied code require separate provenance checks. No license is created or changed by this file. Do not add a copyright claim to third-party code.
 
 ## Change protection
-A mandatory GitHub Actions check `founder-attribution-integrity` verifies this file, the founder identity, repository provenance and the README attribution. Repository administrators should additionally enable branch rulesets requiring this check, restricting force pushes and requiring review for changes to `AUTHORS.md`, `LICENSE*`, `NOTICE*`, `COPYING*` and `.github/workflows/founder-attribution-integrity.yml`. A CI workflow alone can be removed by someone with write access; branch ruleset enforcement must be verified separately.
+The repository contains a GitHub Actions check `founder-attribution-integrity` for the author identity, contributor notices and README attribution. Whether branch rules require it has not been verified. A workflow alone can be removed by someone with write access; branch protections and rulesets are separate controls.
 
 **Recorded:** 2026-10-30. **Evidence standard:** Architecture → Implementation → Evidence.

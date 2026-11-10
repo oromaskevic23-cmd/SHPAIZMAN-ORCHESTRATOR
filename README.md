@@ -20,7 +20,7 @@
 **Expected SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.  
 **Repository scope:** public engineering handover, executable offline business core, ZIP verifier and CI. The **full Windows source archive is provided separately and is not present in this GitHub repository**.
 
-**Independent business beneficiary:** Alexander Viktorovich. **Original project architect:** Alexander Romaskevich (RomaskevicH). The beneficiary's accounts, contracts, payment routes, wallets and customer data are separate from IMPERIAL Core.
+**Independent business beneficiary:** Alexander Viktorovich. His accounts, contracts, payment routes, wallets and customer data are separate from IMPERIAL Core.
 
 ## Deliverables and verified limits
 
