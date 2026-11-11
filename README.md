@@ -1,13 +1,20 @@
 # SHPAIZMAN ORCHESTRATOR — Enterprise Brother Edition
 
-**Project author:** Alexander Nikolaevich Romaskevich (RomaskevicH).
+<p align="center">
+  <img src="assets/shpaizman-orchestrator-ceo-banner.svg" alt="SHPAIZMAN ORCHESTRATOR — CEO Alexander Negriy, blue-and-gold enterprise banner" width="100%" />
+</p>
 
-**Dedication:** A gift to my brother, Alexander Viktorovich. [Authorship and contribution provenance](AUTHORS.md).
+### Brother Edition leadership
+
+**CEO · Project beneficiary: Alexander Negriy ⚡️**  
+**Original project author and systems architect: Alexander Nikolaevich Romaskevich (RomaskevicH).** [Authorship and contribution provenance](AUTHORS.md).
+
+**Enterprise Brother Edition** is a dedicated, independent AI orchestration project developed as a gift for Alexander Viktorovich. Its planned operating model combines one local orchestrator, ten specialized agents, a Windows-based workflow and controlled integrations, with local approval and verifiable results.
 
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
 <p align="center">
-  <img src="assets/shpaizman-orchestrator.webp" alt="Shpaizman Orchestrator — official promotional portrait" width="420" />
+  <img src="assets/shpaizman-orchestrator.webp" alt="SHPAIZMAN Brother Edition — promotional portrait of Alexander Viktorovich" width="540" />
 </p>
 
 [![Enterprise Verification](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml/badge.svg)](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml)
