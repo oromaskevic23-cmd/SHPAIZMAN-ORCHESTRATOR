@@ -21,9 +21,21 @@
 <path d="M-20 1050 C 390 1050, 715 915, 1025 824 S 1265 798, 1510 740" stroke="#fff0b9" stroke-width="3" fill="none"/>
 <rect x="20" y="172" width="1367" height="665" rx="94" fill="#020916" fill-opacity=".43" stroke="url(#frame)" stroke-width="2.7"/>
 <rect x="20" y="172" width="1367" height="665" rx="94" fill="none" stroke="#ffdb93" stroke-opacity=".42" stroke-width="9" filter="url(#glow)"/>
-<path d="M300 293 L430 376 L430 435 L359 411 L294 368 L226 410 L226 446 L296 493 L356 450 L424 495 L424 591 L294 671 L160 592 L160 529 L231 565 L296 601 L353 563 L353 529 L296 563 L160 480 L160 380 Z"
- fill="url(#gold)" fill-rule="evenodd" stroke="#fff0aa" stroke-width="4" stroke-linejoin="round" filter="url(#shadow)"/>
-<path d="M300 295 L429 377 L359 410 L294 369 L226 410 L160 380 Z M160 532 L231 565 L296 601 L353 563 L353 599 L294 671 L160 592 Z" fill="#fff9c9" opacity=".21"/>
+<!-- Canonical Brother Edition interlocking hexagonal S, reconstructed from the approved emblem silhouette. -->
+<svg x="157" y="295" width="276" height="344" viewBox="0 0 620 750" overflow="visible" aria-hidden="true">
+  <defs>
+    <linearGradient id="s-top" x1="0.1" y1="0" x2="0.9" y2="1"><stop stop-color="#fff9cf"/><stop offset=".30" stop-color="#ffe08c"/><stop offset=".75" stop-color="#efb845"/><stop offset="1" stop-color="#ba6900"/></linearGradient>
+    <linearGradient id="s-bottom" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#d58a0f"/><stop offset=".5" stop-color="#f2c460"/><stop offset="1" stop-color="#f9dd86"/></linearGradient>
+    <filter id="s-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+  </defs>
+  <path d="M47 225 L335 50 L606 213 L606 302 L331 139 L119 264 L119 347 L328 468 L344 431 Q356 402 369 413 L445 456 L445 504 L330 561 L46 395 Z" fill="url(#s-top)" stroke="#ffd66a" stroke-width="5" filter="url(#s-glow)" opacity=".7"/>
+  <path d="M47 225 L335 50 L606 213 L606 302 L331 139 L119 264 L119 347 L328 468 L344 431 Q356 402 369 413 L445 456 L445 504 L330 561 L46 395 Z" fill="url(#s-top)" stroke="#ffdfa0" stroke-width="2"/>
+  <path d="M206 309 L329 233 L607 395 L607 585 L329 747 L46 587 L46 491 L329 658 L533 536 L533 441 L332 327 Q323 324 315 338 L304 356 Q293 376 271 370 Q222 362 206 343 Z" fill="url(#s-bottom)" stroke="#ffe28f" stroke-width="4"/>
+  <path d="M47 225 L335 50 L606 213 L532 256 L334 139 L119 264 L119 347 L47 396 Z" fill="#fff9cb" opacity=".20"/>
+  <path d="M329 233 L607 395 L533 440 L330 326 L206 309 Z" fill="#fff4be" opacity=".27"/>
+  <path d="M46 491 L329 658 L533 536 L607 585 L329 747 L46 587 Z" fill="#fff1b1" opacity=".22"/>
+  <path d="M47 225 L335 50 L606 213 M207 309 L329 233 L607 395 M46 491 L329 658 L533 536" fill="none" stroke="#fff8ca" stroke-width="4" opacity=".90"/>
+</svg>
 <text x="455" y="282" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="59" fill="url(#gold)">CEO</text>
 <text x="592" y="282" font-family="Arial,Helvetica,sans-serif" font-weight="600" font-size="59" fill="#fdf8ed">Alexander Negriy</text>
 <path d="M1164 218 L1129 271 L1151 269 L1139 310 L1200 246 L1170 249 L1190 218 Z" fill="url(#gold)" filter="url(#shadow)"/>
