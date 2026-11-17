@@ -29,6 +29,7 @@ The demo uses a temporary database and a fictional CRM request. It checks that p
 - [ ] Prepare an English pitch deck and demo video showing the real product and its limitations.
 - [ ] Define a measured business outcome, collect a baseline and compare results on representative tasks. Demo runtime alone is not proof of money saved.
 - [ ] Review rights, third-party licenses, privacy and security before using real client data or publishing release materials.
+- [ ] Check the official [registration terms](https://www.dubaichamberdigital.com/en/create-ai-agents-register-your-interest): they require an original entry and include assertions about sole ownership and no prior use. Confirm how these conditions apply to this existing project and its third-party materials before making those assertions. The project name or an attribution change does not itself establish a copyright transfer. The terms also include a promotional-use license.
 
 ## Official guidance checked on 2026-11-17
 
