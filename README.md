@@ -102,7 +102,7 @@ Some document filenames retain their historical `_RU` suffix for link and toolin
 
 ## Evidence and limitations
 
-- Repository tests: **56 passed locally on Linux on 2026-11-17**. Windows and the latest GitHub Actions execution require separate verification.
+- Repository tests: **56 passed locally on Linux and on a Windows GitHub Actions runner**; the Linux CI job also passed at [code commit `452d347`](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/runs/44058581753). The beneficiary's own Windows installation remains unverified.
 - Separate archive manifest: 88 source files checked by SHA-256, 89 ZIP entries including the manifest; expected outer ZIP SHA-256 is given above. The archive itself is not published here.
 - Previously reported local Linux candidate tests: **148 tests, 0 failures, 1 skipped**. These are NOT results from the beneficiary's Windows PC; current repository CI results should be checked in [Actions](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions).
 - **NOT VERIFIED:** installation or GUI on the beneficiary's Windows PC; authorization for ten external platform accounts; Telegram connection; real clients, accepted paid orders, revenue or payouts; autonomous production operation.

@@ -12,7 +12,7 @@
 | Local integrity | Hash-chain and queue checks run before resume, enqueue, processing and reading a draft | A process controlling the entire database can rewrite the chain; no independent anchor or signed owner authentication is implemented |
 | Business workflow | Local service-order state machine; quotes are not receipts | Verify a real customer, delivery and settlement independently |
 | Demonstration | `python -m shpaizman.demo` runs an isolated synthetic scenario without provider calls | Record a pitch and live demonstration; validate against competition rules |
-| Tests | `python -m unittest discover -s tests -v` | Run on the target Windows machine and inspect current GitHub Actions results |
+| Tests | 56 tests passed locally on Linux and on a Windows GitHub Actions runner; Linux CI also passed at [code commit `452d347`](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/runs/44058581753) | Run on the beneficiary's target Windows machine |
 | External providers | 0/10 connections verified | Obtain separately authorized accounts and confirm each provider's actual access and pricing |
 | Windows application | Full package is separate from this repository | Obtain the package, verify its hash and run an authorized Windows acceptance |
 | Production | Not verified | Independent security review, authenticated approvals, operational monitoring and tested recovery |
