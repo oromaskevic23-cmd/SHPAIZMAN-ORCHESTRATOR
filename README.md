@@ -76,6 +76,8 @@ python -m shpaizman.demo
 
 It demonstrates a stopped-by-default local queue, one reviewable draft, a stop switch, a fictional service order and integrity checks. It makes no AI or provider calls and records no real sale. See [competition demonstration and current gaps](docs/CHAMPIONSHIP.md).
 
+Competition drafts: [English pitch deck](competition/SHPAIZMAN_Competition_Pitch.pptx) · [offline demo video](competition/SHPAIZMAN_Offline_Demo.mp4).
+
 ### Separate Windows package
 
 ```powershell

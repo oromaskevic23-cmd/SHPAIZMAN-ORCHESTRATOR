@@ -21,6 +21,13 @@ python -m shpaizman.demo
 
 The demo uses a temporary database and a fictional CRM request. It checks that processing starts stopped, creates one deterministic draft after a local operator acknowledgement, stops processing, advances one synthetic service request to qualification, and verifies the local journal. The acknowledgement is not authenticated approval; the synthetic contact-consent assertion is not real client consent. No model, external provider, customer, message or payment is involved.
 
+## Draft presentation materials
+
+- [English pitch deck](../competition/SHPAIZMAN_Competition_Pitch.pptx) — six slides describing the prototype and its limits; content-slide text is editable.
+- [Offline demo video](../competition/SHPAIZMAN_Offline_Demo.mp4) — a 36-second silent video assembled from selected output of a real local demo and test run. It does not show a live AI model or external integration.
+
+These materials are drafts, not proof of registration or acceptance. Update them after the next verified development milestones.
+
 ## Submission checklist
 
 - [ ] Confirm participant registration and category in the official platform. No registration or submission is claimed here.
