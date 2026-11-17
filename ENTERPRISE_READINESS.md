@@ -1,46 +1,24 @@
-# Enterprise Readiness & Repository Provenance — SHPAIZMAN-ORCHESTRATOR
+# Enterprise Readiness — SHPAIZMAN ORCHESTRATOR
 
-**Repository:** `oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR`  
-**Verified visibility:** PUBLIC  
-**Assessment date:** 2026-10-24  
-**Classification:** IMPERIAL CORE / SEPARATELY GOVERNED PROJECT DOCUMENTATION  
-**Observed root:** README-only; textual claims and embedded Python-looking source in README  
-**Evidence level verified here:** E0/E1 — **NOT an Enterprise production certification**
+**Project lead:** Alexander Viktorovich Negriy.
+**Assessment scope:** the Python source in this repository, not the separately distributed Windows package.
+**Assessment date:** 2026-11-17.
 
-## Provenance and ownership boundary
+## Current evidence
 
-**Architectural attribution where relevant:** Alexander Romaskevich (RomaskevicH), founder of IMPERIAL Core. Human development presently described as one founder with LLM assistance. The repository's existing code, licenses and contributor history must be checked before asserting ownership.
+| Area | Current state | What remains |
+| --- | --- | --- |
+| Offline planning | Local SQLite queue, deterministic drafts, bounded task types and local stop switch | Connect and independently evaluate an AI model before claiming AI-driven planning |
+| Local integrity | Hash-chain and queue checks run before resume, enqueue, processing and reading a draft | A process controlling the entire database can rewrite the chain; no independent anchor or signed owner authentication is implemented |
+| Business workflow | Local service-order state machine; quotes are not receipts | Verify a real customer, delivery and settlement independently |
+| Demonstration | `python -m shpaizman.demo` runs an isolated synthetic scenario without provider calls | Record a pitch and live demonstration; validate against competition rules |
+| Tests | `python -m unittest discover -s tests -v` | Run on the target Windows machine and inspect current GitHub Actions results |
+| External providers | 0/10 connections verified | Obtain separately authorized accounts and confirm each provider's actual access and pricing |
+| Windows application | Full package is separate from this repository | Obtain the package, verify its hash and run an authorized Windows acceptance |
+| Production | Not verified | Independent security review, authenticated approvals, operational monitoring and tested recovery |
 
-**Specific observation:** Independent Brother Edition; do not merge into IMPERIAL Core company ownership or reinterpret its beneficiary/owner. No standalone runnable source file was found at root.  
-**Primary risk:** Reported 51/51 self-tests and 10-platform adapters were not verified here; external integrations stated inactive; no guaranteed income.
+## Release boundaries
 
-## Enterprise maturity and required evidence
+No real customer contact, paid provider call, autonomous contract, wallet transfer or verified revenue is established by the offline demonstration. A local operator acknowledgement is not a signed or authenticated owner approval. Local hash chains are useful for detecting partial changes, not protection against a complete hostile database rewrite.
 
-| Capability | Status in this audit | Acceptance gate |
-|---|---|---|
-| Documentation/architecture | E0/E1 | Truthful descriptions and scoped design contracts |
-| Source licensing | Not independently audited | Confirm IP title, third-party rights and license notices |
-| Independent unit tests | NOT RUN | Record reproducible command and results against exact commit SHA |
-| Integration/e2e | NOT RUN | Provide actual executable environment and test evidence |
-| CI and security scans | NOT CHECKED | Real passing GitHub Actions or equivalent workflow evidence |
-| Runtime/sandbox | NOT VERIFIED | Demonstrate isolation, revocation, retry and failure recovery |
-| Production readiness | NOT VERIFIED | Verify deployment, monitoring, release permissions and rollback |
-| Invention/patent rights | NOT VERIFIED | Counsel-reviewed novelty, filing receipts or grants as applicable |
-
-## Required actions
-
-1. Preserve upstream or founder-specific authorship and permissions; do not relabel third-party source.
-2. Audit secret exposure, branch controls, licensing, vulnerable dependencies and access rights.
-3. Separate E0 design from E2 implementation and E3–E6 verified test/deployment evidence.
-4. Record clear owners, issue triage, threat model, changelog, scoped approvals and deployment rollback.
-5. Update status only on inspectable, independently reproducible evidence.
-
-**Digital corporation principle:** IMPERIAL Core is the founder-led architectural vision of a **digital corporation of Universal Nano Core Agents (NCA)**. Professional skills are mission-scoped. Scale **1 → 1,000,000,000 universal NCA identities** is a **future engineering objective**, not a verified deployment. One human founder uses LLM assistance. Canonical intelligence component: **VELION**.
-
-**Control invariants:** Identity ≠ Authority · Capability ≠ Approval · Zero Trust · Deny by Default · Fail Closed.
-
-**References:** [Canonical IMPERIAL Core architecture](https://github.com/oromaskevic23-cmd/IMPERIAL-Core-US-HoldCo-Founder-Control-Blueprint/blob/main/ARCHITECTURE.md) · [Governance](https://github.com/oromaskevic23-cmd/IMPERIAL-Core-US-HoldCo-Founder-Control-Blueprint/blob/main/docs/GOVERNANCE.md).
-
-**Publication is not patent registration:** A “digital invention passport”, Git commit or hash does not establish patent filing or ownership of upstream works.
-
-*This independent repository-specific readiness note changes no original program code or historical authorship.*
+This document is a readiness assessment, not a certification, transfer of rights or guarantee of contest eligibility. See [competition preparation](docs/CHAMPIONSHIP.md), [security](SECURITY.md), [license inventory](governance/LICENSE_INVENTORY.md) and [project information](AUTHORS.md).

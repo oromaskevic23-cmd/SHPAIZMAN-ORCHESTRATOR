@@ -1,6 +1,6 @@
 # SHPAIZMAN — Technical Presentation for the Developer
 
-**Version:** SHPAIZMAN Service Factory 0.8.0 RC1. **Independent beneficiary:** Alexander Viktorovich. **Original architect:** RomaskevicH.
+**Version:** SHPAIZMAN Service Factory 0.8.0 RC1. **Project lead and beneficiary:** Alexander Viktorovich Negriy.
 
 **Mission:** One local orchestrator coordinates technical work across ten specialized agents. The independent Service Factory handles legitimate customer IT service orders, from scope definition to independently verified payment evidence.
 

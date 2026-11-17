@@ -1,15 +1,14 @@
-# SHPAIZMAN ORCHESTRATOR — Enterprise Brother Edition
+# SHPAIZMAN ORCHESTRATOR
 
 <p align="center">
-  <img src="assets/shpaizman-orchestrator-ceo-banner.svg" alt="SHPAIZMAN ORCHESTRATOR — CEO Alexander Negriy, blue-and-gold enterprise banner" width="100%" />
+  <img src="assets/shpaizman-social-preview.jpg" alt="SHPAIZMAN ORCHESTRATOR — Alexander Viktorovich Negriy" width="100%" />
 </p>
 
-### Brother Edition leadership
+### AI orchestration for a service business
 
-**CEO · Project beneficiary: Alexander Negriy ⚡️**  
-**Original project author and systems architect: Alexander Nikolaevich Romaskevich (RomaskevicH).** [Authorship and contribution provenance](AUTHORS.md).
+**Project owner and lead: Alexander Viktorovich Negriy.** [Project information and rights](AUTHORS.md).
 
-**Enterprise Brother Edition** is a dedicated, independent AI orchestration project developed as a gift for Alexander Viktorovich. Its planned operating model combines one local orchestrator, ten specialized agents, a Windows-based workflow and controlled integrations, with local approval and verifiable results.
+SHPAIZMAN is an independent project for coordinating IT-service work. Its planned operating model combines a local orchestrator, ten specialist roles, a Windows workflow and controlled integrations. The current repository contains an offline Python prototype; a live AI model and provider accounts are not connected here.
 
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
@@ -17,14 +16,22 @@
   <img src="assets/shpaizman-orchestrator.webp" alt="SHPAIZMAN Brother Edition — promotional portrait of Alexander Viktorovich" width="540" />
 </p>
 
+### Contact Alexander Viktorovich Negriy
+
+- **Email:** [yv.a83@mail.ru](mailto:yv.a83@mail.ru)
+- **WhatsApp:** 89105969598
+- **Telegram:** 89651312957 or 89651152957
+
+The numbers are shown as supplied; international dialing and account availability have not been verified.
+
 [![Enterprise Verification](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml/badge.svg)](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml)
 
 > **Developer handover:** [Project presentation](docs/PRESENTATION_RU.md) → [Step-by-step Windows setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) → [ZIP verification and checksum](docs/RELEASE_0_8_0_RC1.md) → [Acceptance checklist](docs/PROGRAMMER_ACCEPTANCE_RU.md).
 
 **Telegram (read-only, not live until locally configured):** [secure pairing, token rotation and Windows setup](docs/TELEGRAM_OPERATOR.md). The public bot adapter reports local Service Factory status; it cannot run the ten agents or remotely access the beneficiary's computer.
 
-**Separate Windows delivery:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source code, **not an executable EXE**).  
-**Expected SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.  
+**Separate Windows delivery:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source code, **not an executable EXE**).
+**Expected SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.
 **Repository scope:** public engineering handover, executable offline business core, ZIP verifier and CI. The **full Windows source archive is provided separately and is not present in this GitHub repository**.
 
 **Independent business beneficiary:** Alexander Viktorovich. His accounts, contracts, payment routes, wallets and customer data are separate from IMPERIAL Core.
@@ -61,6 +68,16 @@ The ten platforms are **execution technologies, not ten proven customer marketpl
 
 ## Developer quick start
 
+Run the current repository's isolated, offline demonstration with synthetic data:
+
+```bash
+python -m shpaizman.demo
+```
+
+It demonstrates a stopped-by-default local queue, one reviewable draft, a stop switch, a fictional service order and integrity checks. It makes no AI or provider calls and records no real sale. See [competition demonstration and current gaps](docs/CHAMPIONSHIP.md).
+
+### Separate Windows package
+
 ```powershell
 # 1. Clone the public engineering handover repository.
 git clone https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR.git
@@ -85,6 +102,7 @@ Some document filenames retain their historical `_RU` suffix for link and toolin
 
 ## Evidence and limitations
 
+- Repository tests: **56 passed locally on Linux on 2026-11-17**. Windows and the latest GitHub Actions execution require separate verification.
 - Separate archive manifest: 88 source files checked by SHA-256, 89 ZIP entries including the manifest; expected outer ZIP SHA-256 is given above. The archive itself is not published here.
 - Previously reported local Linux candidate tests: **148 tests, 0 failures, 1 skipped**. These are NOT results from the beneficiary's Windows PC; current repository CI results should be checked in [Actions](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions).
 - **NOT VERIFIED:** installation or GUI on the beneficiary's Windows PC; authorization for ten external platform accounts; Telegram connection; real clients, accepted paid orders, revenue or payouts; autonomous production operation.

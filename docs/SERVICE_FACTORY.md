@@ -1,6 +1,6 @@
 # SHPAIZMAN Service Factory — independent IT business engine
 
-**Beneficiary:** Alexander Viktorovich. **Architecture / original founder:** RomaskevicH.  
+**Project lead and beneficiary:** Alexander Viktorovich Negriy.
 **Status:** implemented, offline customer-pipeline engine on this branch. **NO** authenticated external marketplaces, settled revenue, on-chain wallet delivery, remote PC control or autonomously contracted customers.
 
 ## The mechanism

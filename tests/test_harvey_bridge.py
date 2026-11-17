@@ -135,7 +135,31 @@ class HarveyBridgeTests(unittest.TestCase):
             self.bridge.cycle("albato")
         with self.assertRaisesRegex(HarveyDenied, "LOCAL_TASK_REQUEST_TAMPERED"):
             self.bridge.verify()
-        self.assertEqual(self.bridge.task(task["id"])["state"], "QUEUED")
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_TASK_REQUEST_TAMPERED"):
+            self.bridge.task(task["id"])
+        with closing(sqlite3.connect(self.bridge.path)) as db:
+            self.assertEqual(db.execute("SELECT state FROM tasks WHERE id=?",
+                                        (task["id"],)).fetchone()[0], "QUEUED")
+
+    def test_corrupt_audit_blocks_execution_and_resume_but_not_stop(self):
+        task = self.enqueue()
+        self.bridge.set_enabled(True, local_operator_ack=True)
+        with closing(sqlite3.connect(self.bridge.path)) as db, db:
+            db.execute("DROP TRIGGER audit_no_update")
+            db.execute("UPDATE audit SET event_hash=? WHERE seq=1", ("f" * 64,))
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_AUDIT_CHAIN_BROKEN"):
+            self.bridge.cycle("albato")
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_AUDIT_CHAIN_BROKEN"):
+            self.bridge.task(task["id"])
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_AUDIT_CHAIN_BROKEN"):
+            self.enqueue(event_key="another_event_000000001")
+        self.bridge.set_enabled(False)
+        with self.assertRaisesRegex(HarveyDenied, "LOCAL_AUDIT_CHAIN_BROKEN"):
+            self.bridge.set_enabled(True, local_operator_ack=True)
+        with closing(sqlite3.connect(self.bridge.path)) as db:
+            self.assertEqual(db.execute("SELECT state FROM tasks WHERE id=?",
+                                        (task["id"],)).fetchone()[0], "QUEUED")
+            self.assertEqual(db.execute("SELECT enabled FROM control WHERE id=1").fetchone()[0], 0)
 
     def test_changed_completed_request_is_detected(self):
         task = self.enqueue()

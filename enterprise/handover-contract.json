@@ -1,7 +1,7 @@
 {
   "schema": "shpaizman_enterprise_handover_v1",
   "beneficiary": "Alexander Viktorovich",
-  "founder_signature": "RomaskevicH",
+  "project_lead": "Alexander Viktorovich Negriy",
   "version": "0.7.0-rc2",
   "installation": "BROTHER_LOCAL_AUTHORIZED_ONLY",
   "platform_agents": [

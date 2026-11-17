@@ -1,7 +1,6 @@
 # SHPAIZMAN — HARVEY-pattern ten-agent enterprise upgrade
 
-**Founding project architect:** Alexander Nikolaevich Romaskevich (RomaskevicH).  
-**Independent beneficiary and local operating authority:** Alexander Viktorovich.  
+**Project lead and local operating authority:** Alexander Viktorovich Negriy.
 **Implementation status:** first-party offline source and adversarial tests. **0/10 external providers authenticated; no live sales, automatic client discovery, messages, payments, or server deployment.**
 
 ## Origin and legal boundary
@@ -65,4 +64,4 @@ The example demand URL is **fictional**, never fetched. A genuine public URL mus
 5. Add approved demand feeds and consent-based outreach as a separate reviewed capability; forbid scraping policy circumvention and unsolicited mass messaging.
 6. Use the separate Service Factory lifecycle for real delivery and independent QA. Never book proposed quotations, accepted offers or client statements as confirmed money without external settlement evidence.
 
-**Independent brother-owned boundary:** no shared IMPERIAL Core credentials, CRM customer data, wallet keys, cloud runtimes or cross-project payment destinations. The original founder-level authorship record remains unchanged. No automatic wallet transfers.
+**Independent project boundary:** no shared IMPERIAL Core credentials, CRM customer data, wallet keys, cloud runtimes or cross-project payment destinations. No automatic wallet transfers.

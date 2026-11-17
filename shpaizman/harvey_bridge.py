@@ -1,6 +1,6 @@
 """SHPAIZMAN HARVEY-pattern offline scout/offer queue, no external-provider access.
 
-Founding project architect: Alexander Nikolaevich Romaskevich (RomaskevicH).
+Project lead: Alexander Viktorovich Negriy.
 Harvey-pattern is an independently authored integration, not a vendored Harvey
 runtime or evidence of authentication to external sales/AI platforms.
 """
@@ -186,6 +186,10 @@ class HarveyBridge:
             raise HarveyDenied("LOCAL_OPERATOR_ACK_REQUIRED")
         with self._db() as db:
             db.execute("BEGIN IMMEDIATE")
+            # Stopping must remain possible even if the local ledger is broken.
+            # Resuming requires an intact local record, checked under the lock.
+            if enabled:
+                self._verify_db(db)
             db.execute("UPDATE control SET enabled=? WHERE id=1", (int(enabled),))
             self._log(db, "LOCAL_RESUME" if enabled else "LOCAL_STOP", "CONTROL",
                       {"enabled": enabled, "identity_authenticated": False})
@@ -215,6 +219,7 @@ class HarveyBridge:
         request_hash = sha256(canonical(details).encode()).hexdigest()
         with self._db() as db:
             db.execute("BEGIN IMMEDIATE")
+            self._verify_db(db)
             old = db.execute("SELECT * FROM tasks WHERE event_key=?", (event_key,)).fetchone()
             if old:
                 if old["request_hash"] != request_hash:
@@ -286,6 +291,7 @@ class HarveyBridge:
             if not db.execute("SELECT enabled FROM control WHERE id=1").fetchone()[0]:
                 db.rollback()
                 raise HarveyDenied("STOPPED_BY_DEFAULT_OR_KILL_SWITCH")
+            self._verify_db(db)
             start = (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()
             count = db.execute("SELECT COUNT(*) FROM audit WHERE event_type='DRAFT_READY'"
                                " AND task_id IN (SELECT id FROM tasks WHERE agent=?)"
@@ -313,6 +319,9 @@ class HarveyBridge:
         if not isinstance(task_id, str) or not re.fullmatch(r"[a-f0-9]{32}", task_id):
             raise HarveyDenied("INVALID_TASK_ID")
         with self._db() as db:
+            # Use a single read snapshot for the integrity check and returned data.
+            db.execute("BEGIN")
+            self._verify_db(db)
             row = db.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
         if row is None:
             raise HarveyDenied("TASK_NOT_FOUND")
@@ -334,33 +343,38 @@ class HarveyBridge:
                 "independently_verified_revenue_minor": 0,
                 "always_on_server_deployed": False}
 
-    def verify(self):
+    @staticmethod
+    def _verify_db(db):
         prior = "0" * 64
-        with self._db() as db:
-            events = db.execute("SELECT * FROM audit ORDER BY seq").fetchall()
-            for row in events:
-                data = {k: row[k] for k in ("event_type", "task_id", "details_sha256",
-                          "occurred_at", "prev_hash")}
-                if data["prev_hash"] != prior or sha256(canonical(data).encode()).hexdigest() != row["event_hash"]:
-                    raise HarveyDenied("LOCAL_AUDIT_CHAIN_BROKEN")
-                prior = row["event_hash"]
-            queued = {r["task_id"] for r in events if r["event_type"] == "ENQUEUED"}
-            ready = {r["task_id"] for r in events if r["event_type"] == "DRAFT_READY"}
-            tasks = db.execute("SELECT * FROM tasks").fetchall()
-            if (len(queued) != len(tasks)
-                    or len(ready) != sum(t["state"] == "DRAFT_READY" for t in tasks)
-                    or any(t["id"] not in queued or
-                           (t["state"] == "DRAFT_READY") != (t["id"] in ready)
-                           for t in tasks)):
-                raise HarveyDenied("LOCAL_TASK_PROJECTION_MISMATCH")
-            digest_by_task = {r["task_id"]: r["details_sha256"]
-                              for r in events if r["event_type"] == "DRAFT_READY"}
-            for t in tasks:
-                self._check_task_request(db, t)
-                if t["state"] == "DRAFT_READY":
-                    if (t["artifact_json"] is None or
-                            sha256(t["artifact_json"].encode()).hexdigest() != digest_by_task[t["id"]]):
-                        raise HarveyDenied("LOCAL_ARTIFACT_TAMPERED")
+        events = db.execute("SELECT * FROM audit ORDER BY seq").fetchall()
+        for row in events:
+            data = {k: row[k] for k in ("event_type", "task_id", "details_sha256",
+                      "occurred_at", "prev_hash")}
+            if data["prev_hash"] != prior or sha256(canonical(data).encode()).hexdigest() != row["event_hash"]:
+                raise HarveyDenied("LOCAL_AUDIT_CHAIN_BROKEN")
+            prior = row["event_hash"]
+        queued = {r["task_id"] for r in events if r["event_type"] == "ENQUEUED"}
+        ready_events = [r for r in events if r["event_type"] == "DRAFT_READY"]
+        ready = {r["task_id"] for r in ready_events}
+        tasks = db.execute("SELECT * FROM tasks").fetchall()
+        if (len(queued) != len(tasks) or len(ready) != len(ready_events)
+                or len(ready) != sum(t["state"] == "DRAFT_READY" for t in tasks)
+                or any(t["id"] not in queued or
+                       (t["state"] == "DRAFT_READY") != (t["id"] in ready)
+                       for t in tasks)):
+            raise HarveyDenied("LOCAL_TASK_PROJECTION_MISMATCH")
+        digest_by_task = {r["task_id"]: r["details_sha256"] for r in ready_events}
+        for t in tasks:
+            HarveyBridge._check_task_request(db, t)
+            if t["state"] == "DRAFT_READY":
+                if (t["artifact_json"] is None or
+                        sha256(t["artifact_json"].encode()).hexdigest() != digest_by_task[t["id"]]):
+                    raise HarveyDenied("LOCAL_ARTIFACT_TAMPERED")
         return {"status": "LOCAL_AUDIT_CHAIN_VALID_NOT_EXTERNALLY_ATTESTED",
                 "events": len(events), "tasks": len(tasks),
                 "head_sha256": prior, "provider_connections_verified": 0}
+
+    def verify(self):
+        with self._db() as db:
+            db.execute("BEGIN")
+            return self._verify_db(db)

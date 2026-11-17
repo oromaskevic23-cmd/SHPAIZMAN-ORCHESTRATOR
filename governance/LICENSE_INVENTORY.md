@@ -1,23 +1,12 @@
-# Root License and Source Rights Status — SHPAIZMAN-ORCHESTRATOR
+# Source Rights and License Inventory
 
-**Audited:** 2026-10-30 (tracked GitHub root file check).  
-**Original founder/project provenance:** [AUTHORS.md](../AUTHORS.md).  
-**Root LICENSE / LICENCE / COPYING:** **NOT DETECTED** in the checked root path.  
-**Rights status:** **UNRESOLVED — NO PUBLIC LICENSE GRANT IDENTIFIED.**  
-**Commercial release:** **NOT APPROVED by this document.**
+**Reviewed:** 2026-11-17.
+**Project lead:** Alexander Viktorovich Negriy.
+**Root license:** [LICENSE](../LICENSE), a custom source-available proprietary notice with limited evaluation permission and commercial restrictions.
+**Complete third-party rights review:** not verified.
 
-Public access or a GitHub commit does **not** by itself authorize redistribution, modification, third-party training, model re-licensing or resale. Preserve all existing contributor Git history, nested/upstream licensing obligations, included assets and downstream derivative rights.
+Public access or a GitHub commit does not itself grant commercial use, resale or ownership of third-party materials. Existing contributor Git history, third-party copyright notices, nested licenses and applicable rights remain in place. This file does not itself transfer copyright or change any outside license.
 
-**Decision and clearance requirements:**
-1. Identify each original source/asset author, license chain, contributor agreement and modification history.
-2. Review **nested** licenses, dependencies, fonts/media, model weights, datasets and provider restrictions. Root absence does not prove nested absence.
-3. Keep third-party copyright and notices intact. Never claim exclusive rights over third-party contributions.
-4. Obtain explicit founder approval for a product-specific proprietary customer license or a deliberately open-sourced reference release (MIT/Apache-2.0) **only after** rights review and applicable legal advice.
-5. Before release, require independent QA, security, Owner approval, customer contract terms, and external payment evidence for any `PAYMENT_CONFIRMED` claim.
-6. Enforce critical changes through branch rulesets and code-owner approvals. A CODEOWNERS file alone is advisory.
+Before commercial release, identify the rights holders and license chain for code, dependencies, fonts, images, models and datasets; determine the rights needed for the intended use; and review the customer agreement. Approval and a complete review have not been established by this document.
 
-**Canonical enterprise standard:** https://github.com/oromaskevic23-cmd/oromaskevic23-cmd/blob/main/docs/IMPERIAL_ENTERPRISE_LICENSING_STANDARD.md
-
-**Separate business boundary:** SHPAIZMAN Brother Edition's customer services, payouts and commercial licenses must remain distinct from IMPERIAL Core. A project-level founder attribution does not establish who owns every outside contribution or beneficiary account.
-
-**Not legal advice or a full software supply-chain clearance. No LICENSE has been added or altered.**
+The project and its customers, accounts and payment routes remain separate from IMPERIAL Core. A local project identity or a repository label is not a certificate of ownership of all contributions.
