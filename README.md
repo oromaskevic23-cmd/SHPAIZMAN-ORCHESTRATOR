@@ -13,7 +13,7 @@ SHPAIZMAN is an independent project for coordinating IT-service work. Its planne
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
 <p align="center">
-  <img src="assets/shpaizman-orchestrator.webp" alt="SHPAIZMAN Brother Edition — promotional portrait of Alexander Viktorovich" width="540" />
+  <img src="assets/shpaizman-contact-poster.jpg" alt="Alexander Viktorovich Negriy and SHPAIZMAN project contacts" width="540" />
 </p>
 
 ### Contact Alexander Viktorovich Negriy
