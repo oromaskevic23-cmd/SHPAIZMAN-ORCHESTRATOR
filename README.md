@@ -70,6 +70,12 @@ The ten platforms are **execution technologies, not ten proven customer marketpl
 
 This is an executable local AI draft worker, not the previous synthetic demonstration. The ten existing agent identities are distinct local model roles, **not authenticated integrations with their named platforms**. The original Windows GUI archive remains separate. Project attribution and commercial beneficiary remain unchanged.
 
+### Windows desktop operator (Python 3.12 x64)
+
+After installing Python and Ollama and downloading the model, double-click `OPEN_SHPAIZMAN.cmd`. Choose one of the ten specialist roles, enter a real task, start the worker, and inspect the saved model output. Use STOP to prevent further processing. This UI is a new implementation; not the original archive GUI. Closing the window stops the shared queue. Keep the window open for continuous processing, or use the CLI worker separately. Do not run both controls concurrently.
+
+Run `CHECK_LIVE_AI.cmd qwen2.5:3b` from a terminal to execute an actual local model challenge and obtain the response SHA-256. Nonzero exit means the check failed. This is a live local inference check, not certification of any external provider or ten independent model processes. The unit suite mocks inference and is a separate check. No model download or paid call happens automatically.
+
 ### Windows 10/11 (Python 3.12 x64)
 
 Install Python 3.12 and Ollama on the beneficiary's authorized computer. Download a supported local model through Ollama (requires disk space, memory and internet for the initial download). Example model: `qwen2.5:3b`. Start Ollama locally. No cloud key is required; hardware and electricity costs still apply.
