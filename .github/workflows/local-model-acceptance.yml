@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'shpaizman/live_acceptance.py'
+      - 'shpaizman/live_order_acceptance.py'
+      - 'shpaizman/order_execution.py'
       - '.github/workflows/local-model-acceptance.yml'
   workflow_dispatch:
 permissions:
@@ -34,6 +36,8 @@ jobs:
           docker exec shpaizman-model ollama list
       - name: Actual inference challenge
         run: python -m shpaizman.live_acceptance --model qwen2.5:0.5b
+      - name: Actual order-to-draft execution
+        run: python -m shpaizman.live_order_acceptance --model qwen2.5:0.5b
       - name: Clean up
         if: always()
         run: docker rm -f shpaizman-model || true
