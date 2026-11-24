@@ -8,7 +8,7 @@
 
 **Project owner and lead: Alexander Viktorovich Negriy.** [Project information and rights](AUTHORS.md).
 
-SHPAIZMAN is an independent project for coordinating IT-service work. Its planned operating model combines a local orchestrator, ten specialist roles, a Windows workflow and controlled integrations. The current repository contains an offline Python prototype; a live AI model and provider accounts are not connected here.
+SHPAIZMAN is an independent project for coordinating IT-service work. Its planned operating model combines a local orchestrator, ten specialist roles, a Windows workflow and controlled integrations. The repository contains an offline business core and a new executable local AI worker; actual model availability and external provider accounts require authorized local setup and verification.
 
 **One local orchestrator · Ten professional agents · Independent IT service business for Alexander Viktorovich**
 
@@ -32,7 +32,7 @@ The numbers are shown as supplied; international dialing and account availabilit
 
 **Separate Windows delivery:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source code, **not an executable EXE**).
 **Expected SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.
-**Repository scope:** public engineering handover, executable offline business core, ZIP verifier and CI. The **full Windows source archive is provided separately and is not present in this GitHub repository**.
+**Repository scope:** public engineering handover, executable local AI worker and offline business core, ZIP verifier and CI. The **full Windows source archive is provided separately and is not present in this GitHub repository**.
 
 **Independent business beneficiary:** Alexander Viktorovich. His accounts, contracts, payment routes, wallets and customer data are separate from IMPERIAL Core.
 
@@ -66,7 +66,29 @@ flowchart TD
 
 The ten platforms are **execution technologies, not ten proven customer marketplaces**. A real IT business depends on lawful clients, clear service delivery and independently verified payment.
 
-## Developer quick start
+## Working local AI runtime (new source implementation)
+
+This is an executable local AI draft worker, not the previous synthetic demonstration. The ten existing agent identities are distinct local model roles, **not authenticated integrations with their named platforms**. The original Windows GUI archive remains separate. Project attribution and commercial beneficiary remain unchanged.
+
+### Windows 10/11 (Python 3.12 x64)
+
+Install Python 3.12 and Ollama on the beneficiary's authorized computer. Download a supported local model through Ollama (requires disk space, memory and internet for the initial download). Example model: `qwen2.5:3b`. Start Ollama locally. No cloud key is required; hardware and electricity costs still apply.
+
+```powershell
+ollama pull qwen2.5:3b
+py -3.12 run.py status
+py -3.12 run.py enable
+py -3.12 run.py submit bitrix24 "Design a CRM field mapping for my authorized service project"
+py -3.12 run.py serve --model qwen2.5:3b
+```
+
+Use another terminal for `py -3.12 run.py show JOB_ID` (substitute the returned ID) and `py -3.12 run.py stop`. On Windows, `START_SHPAIZMAN.cmd serve --model qwen2.5:3b` is an equivalent entry point. Close the worker with Ctrl+C. Restart the worker after a machine reboot; automatic Windows service installation is not included. The worker is idle while stopped, and in-flight output is fenced off. STOP does not physically interrupt a model request already in flight. Interrupted jobs are not automatically retried; submit a new job after reviewing the original.
+
+The runtime sends tasks only to the fixed loopback Ollama endpoint. There is no fake response fallback. SQLite persists tasks and events; failed inference is recorded as FAILED and output is a draft for human review. Use only an authorized local Windows account and protect its data directory; the local operator commands are not cryptographic identity verification. Do not include credentials or unnecessary personal data in task text.
+
+`py -3.12 -m unittest discover -s tests -v` runs unit checks; mocked model tests do not prove a live model works. Real inference on the beneficiary's hardware and external provider integrations are not yet verified. GUI, automatic startup, Telegram write controls and production acceptance remain separate milestones.
+
+## Offline demonstration (test fixture only)
 
 Run the current repository's isolated, offline demonstration with synthetic data:
 
@@ -94,7 +116,7 @@ py -3.12 -m enterprise.verify_release --zip-path "$SourceZip" --expected-sha256 
 
 On `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXECUTED`, follow the [Windows developer setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md). Extract/install only with the beneficiary's consent; then validate `INSTALL.cmd`, `START_SHPAIZMAN.cmd`, `RUN_TESTS.cmd`, SQLite persistence and all ten agents on the actual machine.
 
-**Do not run `python run.py` from this GitHub clone.** The full `run.py` is not in the current repository tree; it belongs to the separate ZIP.
+The new repository `run.py` launches the local AI worker described above; it does not restore the original ZIP's GUI or full orchestrator.
 
 ## Documentation
 

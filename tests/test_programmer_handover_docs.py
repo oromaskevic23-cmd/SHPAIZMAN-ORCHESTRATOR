@@ -37,7 +37,10 @@ class HandoverDocumentTests(unittest.TestCase):
   release=(ROOT/"docs/RELEASE_0_8_0_RC1.md").read_text(encoding="utf8")
   self.assertIn("is not present in this GitHub repository",readme)
   self.assertIn("zip archive is not uploaded to this public github repository",release.lower())
-  self.assertFalse((ROOT/"run.py").exists())
+  self.assertIn("from shpaizman.runtime import main",(ROOT/"run.py").read_text(encoding="utf8"))
+  self.assertTrue((ROOT/"shpaizman/runtime.py").is_file())
+  self.assertIn("not the original archive GUI",release)
+  self.assertFalse((ROOT/"shpaizman/orchestrator.py").exists())
   self.assertFalse((ROOT/"SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip").exists())
  def test_preflight_is_read_only_and_references_present_files(self):
   s=(ROOT/"scripts/preflight_handover.ps1").read_text(encoding="utf8")
