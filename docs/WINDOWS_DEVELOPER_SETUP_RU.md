@@ -1,5 +1,7 @@
 # SHPAIZMAN 0.8.0 RC1 — Developer Installation and Windows Acceptance
 
+> **Historical archive instructions only.** For the current executable GitHub source, which includes a new desktop GUI and does not require this archive, use the [current developer handover](CURRENT_DEVELOPER_HANDOVER.md).
+
 **Repository:** https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR
 
 **This is a two-part handover.** The GitHub repository contains documentation, the offline business engine, a read-only ZIP verifier and CI. The full Windows Python application is provided as a **separate ZIP** named `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip`. The repository does not host that ZIP, and cannot launch the full GUI by itself.

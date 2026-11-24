@@ -6,6 +6,8 @@
 
 ### AI orchestration for a service business
 
+**Current developer entry point:** [Installation and acceptance guide](docs/CURRENT_DEVELOPER_HANDOVER.md). The current source includes a runnable CLI and desktop GUI; the historical 0.8.0 RC1 archive is not required for the new local AI runtime.
+
 **Project owner and lead: Alexander Viktorovich Negriy.** [Project information and rights](AUTHORS.md).
 
 SHPAIZMAN is an independent project for coordinating IT-service work. Its planned operating model combines a local orchestrator, ten specialist roles, a Windows workflow and controlled integrations. The repository contains an offline business core and a new executable local AI worker; actual model availability and external provider accounts require authorized local setup and verification.
@@ -26,11 +28,11 @@ The numbers are shown as supplied; international dialing and account availabilit
 
 [![Enterprise Verification](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml/badge.svg)](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/workflows/enterprise-verification.yml)
 
-> **Developer handover:** [Project presentation](docs/PRESENTATION_RU.md) → [Step-by-step Windows setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) → [ZIP verification and checksum](docs/RELEASE_0_8_0_RC1.md) → [Acceptance checklist](docs/PROGRAMMER_ACCEPTANCE_RU.md).
+> **Historical 0.8.0 RC1 handover (not the current installation path):** [Project presentation](docs/PRESENTATION_RU.md) → [Step-by-step Windows setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) → [ZIP verification and checksum](docs/RELEASE_0_8_0_RC1.md) → [Acceptance checklist](docs/PROGRAMMER_ACCEPTANCE_RU.md).
 
 **Telegram (read-only, not live until locally configured):** [secure pairing, token rotation and Windows setup](docs/TELEGRAM_OPERATOR.md). The public bot adapter reports local Service Factory status; it cannot run the ten agents or remotely access the beneficiary's computer.
 
-**Separate Windows delivery:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source code, **not an executable EXE**).
+**Historical separate Windows delivery:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source code, **not an executable EXE**).
 **Expected SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.
 **Repository scope:** public engineering handover, executable local AI worker and offline business core, ZIP verifier and CI. The **full Windows source archive is provided separately and is not present in this GitHub repository**.
 
@@ -40,8 +42,8 @@ The numbers are shown as supplied; international dialing and account availabilit
 
 | Component | Documented state | Source / instructions |
 | --- | --- | --- |
-| Orchestrator, local SQLite CRM and GUI | Included in separately supplied ZIP; installation on beneficiary's Windows PC is NOT VERIFIED | [ZIP register](docs/RELEASE_0_8_0_RC1.md) · [Windows setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) |
-| Ten specialized agent implementations | Described as present in the separate ZIP; authorized external platform accounts: **0/10 verified** | [Agent matrix](docs/AGENT_MATRIX.md) |
+| Local AI worker, SQLite queue and desktop GUI | Current source; live local model challenge passed on Linux; Windows PC installation NOT VERIFIED | [Current setup](docs/CURRENT_DEVELOPER_HANDOVER.md) · [Runtime](shpaizman/runtime.py) · [GUI](shpaizman/operator_ui.py) |
+| Ten specialized local model roles | Implemented in current runtime; authorized external platform accounts: **0/10 verified** | [Agent matrix](docs/AGENT_MATRIX.md) |
 | Service Factory IT order management | Offline repository code; actual paid income NOT VERIFIED | [Business engine](shpaizman/business.py) · [CLI](shpaizman/business_cli.py) · [tests](tests/test_business.py) |
 | Package integrity verification | Read-only public ZIP verifier and tests | [Verifier](enterprise/verify_release.py) · [CI](.github/workflows/enterprise-verification.yml) |
 | Beneficiary's local ASTRA | Handover boundaries specified; NOT connected to the Windows PC | [ASTRA handover](docs/ASTRA_HANDOVER.md) · [JSON contract](enterprise/handover-contract.json) |
@@ -92,7 +94,7 @@ Use another terminal for `py -3.12 run.py show JOB_ID` (substitute the returned 
 
 The runtime sends tasks only to the fixed loopback Ollama endpoint. There is no fake response fallback. SQLite persists tasks and events; failed inference is recorded as FAILED and output is a draft for human review. Use only an authorized local Windows account and protect its data directory; the local operator commands are not cryptographic identity verification. Do not include credentials or unnecessary personal data in task text.
 
-`py -3.12 -m unittest discover -s tests -v` runs unit checks; mocked model tests do not prove a live model works. Real inference on the beneficiary's hardware and external provider integrations are not yet verified. GUI, automatic startup, Telegram write controls and production acceptance remain separate milestones.
+`py -3.12 -m unittest discover -s tests -v` runs unit checks; mocked model tests do not prove a live model works. Real inference on the beneficiary's hardware and external provider integrations are not yet verified. GUI execution on the actual Windows PC, automatic startup, Telegram write controls and production acceptance remain separate milestones.
 
 ## Offline demonstration (test fixture only)
 
@@ -106,7 +108,7 @@ It demonstrates a stopped-by-default local queue, one reviewable draft, a stop s
 
 Competition drafts: [English pitch deck](competition/SHPAIZMAN_Competition_Pitch.pptx) · [offline demo video](competition/SHPAIZMAN_Offline_Demo.mp4).
 
-### Separate Windows package
+### Historical separate Windows package (not required for the current runtime)
 
 ```powershell
 # 1. Clone the public engineering handover repository.
@@ -132,7 +134,7 @@ Some document filenames retain their historical `_RU` suffix for link and toolin
 
 ## Evidence and limitations
 
-- Repository tests: **56 passed locally on Linux and on a Windows GitHub Actions runner**; the Linux CI job also passed at [code commit `452d347`](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/runs/44058581753). The beneficiary's own Windows installation remains unverified.
+- Repository tests: **66 passed on Linux and 66 on Windows** in [CI](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/runs/45426192354). The [actual local Ollama model challenge](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/runs/45426192565) passed on Linux. The beneficiary's own Windows installation remains unverified.
 - Separate archive manifest: 88 source files checked by SHA-256, 89 ZIP entries including the manifest; expected outer ZIP SHA-256 is given above. The archive itself is not published here.
 - Previously reported local Linux candidate tests: **148 tests, 0 failures, 1 skipped**. These are NOT results from the beneficiary's Windows PC; current repository CI results should be checked in [Actions](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions).
 - **NOT VERIFIED:** installation or GUI on the beneficiary's Windows PC; authorization for ten external platform accounts; Telegram connection; real clients, accepted paid orders, revenue or payouts; autonomous production operation.
