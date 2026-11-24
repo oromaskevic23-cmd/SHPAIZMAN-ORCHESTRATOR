@@ -1,0 +1,4 @@
+# SHPAIZMAN current local runtime: Python 3.12 standard library only.
+# Tkinter and SQLite must be supplied by the Python installation.
+# Ollama is a separate local executable; install it independently.
+# No third-party pip dependencies are required.
