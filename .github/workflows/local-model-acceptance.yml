@@ -1,0 +1,39 @@
+name: Local model live acceptance
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'shpaizman/live_acceptance.py'
+      - '.github/workflows/local-model-acceptance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: shpaizman-live-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  local-model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - name: Run local-only Ollama and pull small model
+        run: |
+          docker run -d --rm --name shpaizman-model -p 127.0.0.1:11434:11434 -e OLLAMA_NO_CLOUD=1 ollama/ollama:0.40.12
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:11434/api/version; then break; fi
+            sleep 2
+          done
+          curl --fail --silent http://127.0.0.1:11434/api/version
+          docker exec shpaizman-model ollama pull qwen2.5:0.5b
+          docker exec shpaizman-model ollama list
+      - name: Actual inference challenge
+        run: python -m shpaizman.live_acceptance --model qwen2.5:0.5b
+      - name: Clean up
+        if: always()
+        run: docker rm -f shpaizman-model || true
