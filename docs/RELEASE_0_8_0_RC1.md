@@ -36,6 +36,6 @@ The previously reported local result was `SOURCE_ZIP_HASHES_VERIFIED_NO_CODE_EXE
 
 ## Public repository versus separate archive
 
-The present GitHub repository includes the [offline business pipeline](../shpaizman/business.py), [CLI](../shpaizman/business_cli.py), [ZIP validator](../enterprise/verify_release.py), [ASTRA contract](../enterprise/handover-contract.json) and tests. It **does not** contain `run.py`, `shpaizman/orchestrator.py`, the full `shpaizman/agents/*` or `shpaizman/connectors/*` trees. Do not fabricate missing modules or try to launch the incomplete repository clone as a GUI app.
+The present GitHub repository includes the [offline business pipeline](../shpaizman/business.py), [CLI](../shpaizman/business_cli.py), [ZIP validator](../enterprise/verify_release.py), [ASTRA contract](../enterprise/handover-contract.json) and tests. The newly written `run.py` and `START_SHPAIZMAN.cmd` launch a separate local AI worker, not the original archive GUI. The repository still does not contain the original `shpaizman/orchestrator.py`, the full `shpaizman/agents/*` or `shpaizman/connectors/*` trees. Do not fabricate missing modules or try to launch the incomplete repository clone as a GUI app.
 
 **Next proposed delivery milestone:** perform source, license, secret and Windows CI reviews of the full external package before separately authorizing GitHub publication and an official versioned Release Asset. This document records a specification and previously stated verification limits; it does not claim the asset has already been published.
