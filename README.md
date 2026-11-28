@@ -1,8 +1,8 @@
 # SHPAIZMAN ORCHESTRATOR
 
-## Install Brother Edition 0.9.0 on Windows
+## Install Brother Edition 0.9.1 on Windows
 
-**[Download the Windows installation ZIP](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/raw/refs/heads/main/downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip)**. If you cloned the repository, the same file is in [downloads](downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip). Use the scripts inside this ZIP for the brother's computer.
+**[Download the Windows installation ZIP](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/raw/refs/heads/main/downloads/SHPAIZMAN_Brother_Edition_0.9.1_Windows.zip)**. If you cloned the repository, the same file is in [downloads](downloads/SHPAIZMAN_Brother_Edition_0.9.1_Windows.zip). Use the scripts inside this ZIP for the brother's computer.
 
 1. On Windows 10/11 x64, install Python 3.12 x64 with Tcl/Tk and the Python launcher. Download the ZIP, check its SHA-256 below, extract all files, and open `SHPAIZMAN_BROTHER_EDITION/START_HERE_RU.txt`.
 2. Under the brother's Windows account, run **INSTALL.cmd** from the extracted folder. For an existing installation, first back up the CRM and close the previous version. The installer prints the new application path.
@@ -12,10 +12,12 @@
 Full Russian instructions are in the archive's **README.md**. The bot and desktop share the same local queue. Keep the computer awake and the application open while using Telegram.
 
 ~~~powershell
-Get-FileHash .\SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip -Algorithm SHA256
+Get-FileHash .\SHPAIZMAN_Brother_Edition_0.9.1_Windows.zip -Algorithm SHA256
 ~~~
 
-Expected SHA-256: `87e89f5d10db8fc4dd08dcbd325b06981183fd8c2f5903fb18ad7d7147eea789`.
+Expected SHA-256: `201f37d3b4bbe8cf40e85c04dc62a0b32c38a69d40c5baed18b8566d2fe8dfeb`.
+
+The [original 0.9.0 gift ZIP](downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip) is also preserved byte for byte. Version 0.9.1 corrects how a second Windows instance reports an already-open application.
 
 <p align="center">
   <img src="assets/shpaizman-social-preview.jpg" alt="SHPAIZMAN ORCHESTRATOR — Alexander Viktorovich Negriy" width="100%" />

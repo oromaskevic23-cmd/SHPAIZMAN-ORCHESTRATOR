@@ -10,12 +10,17 @@ import zipfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ARCHIVE = ROOT / "downloads" / "SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip"
-SHA256 = "87e89f5d10db8fc4dd08dcbd325b06981183fd8c2f5903fb18ad7d7147eea789"
+ARCHIVE = ROOT / "downloads" / "SHPAIZMAN_Brother_Edition_0.9.1_Windows.zip"
+SHA256 = "201f37d3b4bbe8cf40e85c04dc62a0b32c38a69d40c5baed18b8566d2fe8dfeb"
 PREFIX = "SHPAIZMAN_BROTHER_EDITION/"
 
 
 class BrotherPackageTests(unittest.TestCase):
+    def test_original_brother_zip_is_preserved(self):
+        original = ROOT / "downloads" / "SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip"
+        self.assertEqual(hashlib.sha256(original.read_bytes()).hexdigest(),
+                         "87e89f5d10db8fc4dd08dcbd325b06981183fd8c2f5903fb18ad7d7147eea789")
+
     def test_delivery_hash_manifest_and_entry_points(self):
         self.assertEqual(hashlib.sha256(ARCHIVE.read_bytes()).hexdigest(), SHA256)
         with zipfile.ZipFile(ARCHIVE) as archive:
@@ -53,4 +58,4 @@ class BrotherPackageTests(unittest.TestCase):
             run(installed, "scripts/verify_manifest.py")
             run(installed, "run.py", "gui-smoke", "--data-dir", str(root / "gui data"))
             run(installed, "run.py", "smoke", "--data-dir", str(root / "worker data"))
-            run(installed, "-m", "unittest", "discover", "-s", "tests", "-p", "test_security.py", "-v")
+            run(installed, "-m", "unittest", "discover", "-s", "tests", "-v")

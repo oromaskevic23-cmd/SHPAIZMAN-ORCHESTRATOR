@@ -1,6 +1,6 @@
 # SHPAIZMAN — current developer handover
 
-For the brother's Windows desktop and private Telegram operator, use the [Brother Edition 0.9.0 ZIP and installation steps](../README.md#install-brother-edition-090-on-windows). The guide below covers the separate source-checkout tools.
+For the brother's Windows desktop and private Telegram operator, use the [Brother Edition 0.9.1 ZIP and installation steps](../README.md#install-brother-edition-091-on-windows). The guide below covers the separate source-checkout tools.
 
 Use the current GitHub source, not the historical 0.8.0 RC1 archive. This revision implements a local AI draft worker and desktop operator console. It is ready for developer integration work, not certified production operation.
 
