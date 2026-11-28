@@ -35,10 +35,26 @@ Ollama must be running locally. The example model requires adequate RAM and disk
 - [Live Ollama qwen2.5:0.5b challenge on Linux](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/actions/runs/45426192565): actual response contained the random challenge. This is not a Windows GUI or commercial acceptance test.
 - [Merged implementation](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/commit/6e144ec6336d0a0474fa6d525e99adeea5a1a71f).
 
+## Order-to-draft execution
+
+Create a consented order using the Service Factory CLI and advance it to IN_PROGRESS with actual evidence and local approval, using `python -m shpaizman.business_cli --help` and its `lead` / `advance` subcommand help. Record the returned order ID. Do not invent evidence or client consent.
+
+Put the approved scope in a UTF-8 file named brief.txt, excluding credentials and unnecessary customer data. From the repository root run:
+
+```powershell
+.\ORDER_EXECUTION.cmd schedule ORDER_ID brief.txt
+py -3.12 run.py enable
+py -3.12 run.py serve --model qwen2.5:3b
+```
+
+In another terminal, inspect progress with `.\ORDER_EXECUTION.cmd report ORDER_ID`. Once DRAFT_PACKAGE_READY, export with `.\ORDER_EXECUTION.cmd export ORDER_ID deliverable.json`. Substitute the actual order ID. The file must not already exist. The export includes each role's actual model output and a SHA-256 receipt. It never changes the business stage, sends work to customers or claims revenue. Interrupted or failed batches require developer review; this revision does not automatically retry an order batch.
+
+To test the integration without real customer data, run `py -3.12 -m shpaizman.live_order_acceptance --model qwen2.5:3b`. The order is a synthetic acceptance fixture, but the inference calls are real.
+
 ## Developer acceptance tasks
 
 - Run the GUI on the beneficiary's actual Windows PC, submit tasks under all ten roles, verify saved output after restart, verify STOP and local permissions.
-- Review and integrate the business queue and AI worker; they are currently separate local modules.
+- Review the integrated order-to-AI workflow and validate its draft output on real, consented work.
 - Implement and test documented, authorized external provider adapters. The ten names currently identify local specialist roles, not ten authenticated provider agents. Provider connections verified: 0/10.
 - Implement consented persistent startup and recovery, provider-specific cost limits and operator authentication before unattended use.
 - Confirm Telegram pairing separately; no automatic outreach or payouts. Do not place tokens or customer secrets in GitHub.
