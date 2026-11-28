@@ -15,9 +15,9 @@ Full Russian instructions are in the archive's **README.md**. The bot and deskto
 Get-FileHash .\SHPAIZMAN_Brother_Edition_0.9.1_Windows.zip -Algorithm SHA256
 ~~~
 
-Expected SHA-256: `201f37d3b4bbe8cf40e85c04dc62a0b32c38a69d40c5baed18b8566d2fe8dfeb`.
+Expected SHA-256: `1d8b8aaffc07704f46095468aeffff43de4baf6714f9f98558afb2131b437c38`.
 
-The [original 0.9.0 gift ZIP](downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip) is also preserved byte for byte. Version 0.9.1 corrects how a second Windows instance reports an already-open application.
+The [original 0.9.0 gift ZIP](downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip) is also preserved byte for byte. Version 0.9.1 handles a second Windows launch and closes CRM backup files after use.
 
 <p align="center">
   <img src="assets/shpaizman-social-preview.jpg" alt="SHPAIZMAN ORCHESTRATOR — Alexander Viktorovich Negriy" width="100%" />

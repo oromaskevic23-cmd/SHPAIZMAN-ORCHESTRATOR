@@ -11,7 +11,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT / "downloads" / "SHPAIZMAN_Brother_Edition_0.9.1_Windows.zip"
-SHA256 = "201f37d3b4bbe8cf40e85c04dc62a0b32c38a69d40c5baed18b8566d2fe8dfeb"
+SHA256 = "1d8b8aaffc07704f46095468aeffff43de4baf6714f9f98558afb2131b437c38"
 PREFIX = "SHPAIZMAN_BROTHER_EDITION/"
 
 
