@@ -1,12 +1,29 @@
 # SHPAIZMAN ORCHESTRATOR
 
+## Install Brother Edition 0.9.0 on Windows
+
+**[Download the Windows installation ZIP](https://github.com/oromaskevic23-cmd/SHPAIZMAN-ORCHESTRATOR/raw/refs/heads/main/downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip)**. If you cloned the repository, the same file is in [downloads](downloads/SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip). Use the scripts inside this ZIP for the brother's computer.
+
+1. On Windows 10/11 x64, install Python 3.12 x64 with Tcl/Tk and the Python launcher. Download the ZIP, check its SHA-256 below, extract all files, and open `SHPAIZMAN_BROTHER_EDITION/START_HERE_RU.txt`.
+2. Under the brother's Windows account, run **INSTALL.cmd** from the extracted folder. For an existing installation, first back up the CRM and close the previous version. The installer prints the new application path.
+3. In the **installed folder**, open **START_SHPAIZMAN.cmd** and finish setup. For Telegram, close the application, create a dedicated bot with BotFather, then run **PAIR_TELEGRAM.cmd**. Enter the token at the hidden prompt. Send the displayed pairing command from the brother's phone and confirm his account ID at the computer.
+4. Reopen **START_SHPAIZMAN.cmd**. Send `/status` to the bot. For natural-language tasks, start Ollama, run `ollama pull qwen2.5:1.5b`, and select that model under **SETTINGS > SAVE MODEL**. Run **CHECK_AI.cmd** for an end-to-end model check. Start the worker and send `/ask bitrix24 Suggest three fields for a repair ticket`. Send the returned `/result` command with its job ID.
+
+Full Russian instructions are in the archive's **README.md**. The bot and desktop share the same local queue. Keep the computer awake and the application open while using Telegram.
+
+~~~powershell
+Get-FileHash .\SHPAIZMAN_Brother_Edition_0.9.0_Windows.zip -Algorithm SHA256
+~~~
+
+Expected SHA-256: `87e89f5d10db8fc4dd08dcbd325b06981183fd8c2f5903fb18ad7d7147eea789`.
+
 <p align="center">
   <img src="assets/shpaizman-social-preview.jpg" alt="SHPAIZMAN ORCHESTRATOR — Alexander Viktorovich Negriy" width="100%" />
 </p>
 
 ### AI orchestration for a service business
 
-**Current developer entry point:** [Installation and acceptance guide](docs/CURRENT_DEVELOPER_HANDOVER.md). The current source includes a runnable CLI and desktop GUI; the historical 0.8.0 RC1 archive is not required for the new local AI runtime.
+**Standalone source-checkout tools (separate from the packaged Brother Edition):** [Installation and acceptance guide](docs/CURRENT_DEVELOPER_HANDOVER.md). The current source includes a runnable CLI and desktop GUI; the historical 0.8.0 RC1 archive is not required for the new local AI runtime.
 
 **Project owner and lead: Alexander Viktorovich Negriy.** [Project information and rights](AUTHORS.md).
 
@@ -30,7 +47,7 @@ The numbers are shown as supplied; international dialing and account availabilit
 
 > **Historical 0.8.0 RC1 handover (not the current installation path):** [Project presentation](docs/PRESENTATION_RU.md) → [Step-by-step Windows setup](docs/WINDOWS_DEVELOPER_SETUP_RU.md) → [ZIP verification and checksum](docs/RELEASE_0_8_0_RC1.md) → [Acceptance checklist](docs/PROGRAMMER_ACCEPTANCE_RU.md).
 
-**Telegram (read-only, not live until locally configured):** [secure pairing, token rotation and Windows setup](docs/TELEGRAM_OPERATOR.md). The public bot adapter reports local Service Factory status; it cannot run the ten agents or remotely access the beneficiary's computer.
+**Standalone checkout Telegram adapter (read-only):** [secure pairing, token rotation and Windows setup](docs/TELEGRAM_OPERATOR.md). The public bot adapter reports local Service Factory status; it cannot run the ten agents or remotely access the beneficiary's computer.
 
 **Historical separate Windows delivery:** `SHPAIZMAN_SERVICE_FACTORY_0.8.0_RC1.zip` (Python source code, **not an executable EXE**).
 **Expected SHA-256:** `9c26a398e585d9e1f79d75df71d3b99084b599cf5b832e0279dd857f94feb75e`.
@@ -153,4 +170,4 @@ All **ten original specialist agents** now have a separately bounded local prosp
 
 One offline draft per invoked cycle, local SQLite evidence, per-agent quotas, idempotency and manual stop are implemented; output requires explicit beneficiary review. **Not implemented:** automatic prospect search, third-party login/API integrations, outreach, always-on server agents, signed human approval or actual received revenue. External connections remain **0/10 independently verified**.
 
-Run `python -m shpaizman.harvey_cli catalog` and `python -m shpaizman.harvey_cli status` on an authorized machine to inspect the safe local controls. This public repository still does not contain the separate complete Windows ZIP, and changes here do not install anything on Alexander Viktorovich's computer.
+Run `python -m shpaizman.harvey_cli catalog` and `python -m shpaizman.harvey_cli status` on an authorized machine to inspect the safe local controls. The historical RC1 archive remains separate, and changes here do not install anything on Alexander Viktorovich's computer.
